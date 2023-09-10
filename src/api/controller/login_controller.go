@@ -20,7 +20,7 @@ type LoginController struct {
 // @Summary User Login endpoint
 // @Schemes
 // @Description User login through here
-// @Tags Login
+// @Tags Authentication
 // @Accept json
 // @Produce json
 // @Success 200

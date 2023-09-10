@@ -16,7 +16,7 @@ type ProfileController struct {
 // @Summary Get user profile
 // @Schemes
 // @Description Get user profile
-// @Tags Profile
+// @Tags Authentication
 // @Accept json
 // @Produce json
 // @Success 200
