@@ -34,7 +34,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Login"
+                    "Authentication"
                 ],
                 "summary": "User Login endpoint",
                 "responses": {
@@ -54,7 +54,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Profile"
+                    "Authentication"
                 ],
                 "summary": "Get user profile",
                 "responses": {

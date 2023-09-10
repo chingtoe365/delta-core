@@ -25,7 +25,7 @@ paths:
           description: OK
       summary: User Login endpoint
       tags:
-      - Login
+      - Authentication
   /profile:
     get:
       consumes:
@@ -38,7 +38,7 @@ paths:
           description: OK
       summary: Get user profile
       tags:
-      - Profile
+      - Authentication
   /refresh:
     get:
       consumes:

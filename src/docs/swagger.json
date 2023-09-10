@@ -31,7 +31,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Login"
+                    "Authentication"
                 ],
                 "summary": "User Login endpoint",
                 "responses": {
@@ -51,7 +51,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Profile"
+                    "Authentication"
                 ],
                 "summary": "Get user profile",
                 "responses": {
