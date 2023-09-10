@@ -1,0 +1,95 @@
+basePath: /api/v1
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: Swagger API documentation for DeltaTrade core service.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: DeltaTrade Core Swagger API
+  version: "1.0"
+paths:
+  /login:
+    get:
+      consumes:
+      - application/json
+      description: User login through here
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: User Login endpoint
+      tags:
+      - Login
+  /profile:
+    get:
+      consumes:
+      - application/json
+      description: Get user profile
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Get user profile
+      tags:
+      - Profile
+  /refresh:
+    get:
+      consumes:
+      - application/json
+      description: Refresh token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Refresh token
+      tags:
+      - Authentication
+  /signup:
+    get:
+      consumes:
+      - application/json
+      description: User sign up
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: User sign up
+      tags:
+      - Authentication
+  /task:
+    get:
+      consumes:
+      - application/json
+      description: Fetch task
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Fetch task
+      tags:
+      - Task
+    post:
+      consumes:
+      - application/json
+      description: Create task
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Create task
+      tags:
+      - Task
+schemes:
+- http
+swagger: "2.0"

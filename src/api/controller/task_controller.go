@@ -1,0 +1,73 @@
+package controller
+
+import (
+	"net/http"
+
+	"delta-core/domain"
+
+	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
+type TaskController struct {
+	TaskUsecase domain.TaskUsecase
+}
+
+// PingExample godoc
+// @Summary Create task
+// @Schemes
+// @Description Create task
+// @Tags Task
+// @Accept json
+// @Produce json
+// @Success 200
+// @Router /task [post]
+func (tc *TaskController) Create(c *gin.Context) {
+	var task domain.Task
+
+	err := c.ShouldBind(&task)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+
+	userID := c.GetString("x-user-id")
+	task.ID = primitive.NewObjectID()
+
+	task.UserID, err = primitive.ObjectIDFromHex(userID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+
+	err = tc.TaskUsecase.Create(c, &task)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, domain.SuccessResponse{
+		Message: "Task created successfully",
+	})
+}
+
+// PingExample godoc
+// @Summary Fetch task
+// @Schemes
+// @Description Fetch task
+// @Tags Task
+// @Accept json
+// @Produce json
+// @Success 200
+// @Router /task [get]
+func (u *TaskController) Fetch(c *gin.Context) {
+	userID := c.GetString("x-user-id")
+
+	tasks, err := u.TaskUsecase.FetchByUserID(c, userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, tasks)
+}
