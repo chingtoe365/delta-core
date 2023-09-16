@@ -1,7 +1,50 @@
 version: "3.8"
 
+x-deploy: &default-deploy
+  replicas: 1
+  update_config:
+    parallelism: 1
+    delay: 30s
+  restart_policy:
+    condition: unless-stopped
+    delay: 10s
+    # max_attempts: 5
+    window: 30s
+#  placement:
+#    constraints:
+#      - node.labels.generic.host == true
+
+x-service: &default-service
+  env_file:
+    - .env
+    # the above will include the docker compose .env file as well so that the variables
+    # needed at runtime as well are set in the container as well
+    - ./${DEPLOYMENT_ENV_FILE-.env}
+    # specify when invoking Compose via env variable, note that this only affects deployment
+  networks:
+    - delta-core-net
+  stop_grace_period: "3s"
+  deploy:
+    <<: *default-deploy
+
 services:
+  mongodb:
+    <<: *default-service
+    image: mongo:6.0
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$DB_USER
+      - MONGO_INITDB_ROOT_PASSWORD=$DB_PASS
+
+    env_file: ./.env
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./database/data:/data/db
+      - ./database/dev.archive:/Databases/dev.archive
+      - ./database/production:/Databases/production
+
   web:
+    <<: *default-service
     build:
       context: ../
       dockerfile: ./docker/Dockerfile
@@ -9,26 +52,36 @@ services:
         - ENV_FILE=./docker/.env
     image: app
     container_name: app
-    restart: unless-stopped
     env_file: ./.env
     ports:
       - "$PORT:$PORT"
     command: /start.sh
     depends_on:
       - mongodb
+    healthcheck:
+      test: [ "CMD", "netstat", "|", "grep", "ESTABLISHED" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
-  mongodb:
-    image: mongo:6.0
-    container_name: mongodb
-    restart: unless-stopped
-    env_file: ./.env
+  mongo_express:
+    <<: *default-service
+    image: mongo-express
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=$DB_USER
-      - MONGO_INITDB_ROOT_PASSWORD=$DB_PASS
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=$DB_USER
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=$DB_PASS
+      - ME_CONFIG_MONGODB_URL=mongodb://$DB_USER:$DB_PASS@$DB_HOST:$DB_PORT/?authSource=admin
+      - ME_CONFIG_BASICAUTH_USERNAME=mexpress
+      - ME_CONFIG_BASICAUTH_PASSWORD=mexpress
+    env_file: ./.env
+    links:
+      - mongodb
     ports:
-      - "$DB_PORT:$DB_PORT"
-    volumes:
-      - dbdata:/data/db
+      - "8081:8081"
+    depends_on:
+      web:
+        condition: service_healthy
 
-volumes:
-  dbdata:
+networks:
+  delta-core-net:
+    name: delta-core-net

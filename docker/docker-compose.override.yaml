@@ -8,4 +8,11 @@ services:
       args:
         - ENV_FILE=./docker/.env.local
     env_file: .env.local
+    # volumes:
+    #   - ../src:/app
     # command: sleep 5000
+  mongodb:
+    env_file: .env.local
+
+  mongo_express:
+    env_file: .env.local
