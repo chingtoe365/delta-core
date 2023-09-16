@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 
 	"golang.org/x/crypto/bcrypt"
@@ -16,16 +17,18 @@ type LoginController struct {
 	Env          *bootstrap.Env
 }
 
-// PingExample godoc
+// Login godoc
 // @Summary User Login endpoint
 // @Schemes
 // @Description User login through here
 // @Tags Authentication
+// @Param request body domain.LoginRequest true "Login Request"
 // @Accept json
 // @Produce json
 // @Success 200
-// @Router /login [get]
+// @Router /login [post]
 func (lc *LoginController) Login(c *gin.Context) {
+	fmt.Println(">> Login request comes in")
 	var request domain.LoginRequest
 
 	err := c.ShouldBind(&request)

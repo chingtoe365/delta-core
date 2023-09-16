@@ -19,10 +19,11 @@ type RefreshTokenController struct {
 // @Schemes
 // @Description Refresh token
 // @Tags Authentication
+// @Param request body domain.RefreshTokenRequest true "Refresh Token Request"
 // @Accept json
 // @Produce json
 // @Success 200
-// @Router /refresh [get]
+// @Router /refresh [post]
 func (rtc *RefreshTokenController) RefreshToken(c *gin.Context) {
 	var request domain.RefreshTokenRequest
 

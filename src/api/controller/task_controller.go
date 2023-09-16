@@ -18,6 +18,8 @@ type TaskController struct {
 // @Schemes
 // @Description Create task
 // @Tags Task
+// @Security ApiKeyAuth
+// @Param task body domain.Task true "Create Task"
 // @Accept json
 // @Produce json
 // @Success 200
@@ -56,6 +58,7 @@ func (tc *TaskController) Create(c *gin.Context) {
 // @Schemes
 // @Description Fetch task
 // @Tags Task
+// @Security ApiKeyAuth
 // @Accept json
 // @Produce json
 // @Success 200

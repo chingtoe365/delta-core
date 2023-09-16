@@ -17,6 +17,7 @@ type ProfileController struct {
 // @Schemes
 // @Description Get user profile
 // @Tags Authentication
+// @Security ApiKeyAuth
 // @Accept json
 // @Produce json
 // @Success 200

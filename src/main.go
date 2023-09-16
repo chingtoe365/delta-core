@@ -28,6 +28,11 @@ import (
 // @host localhost:8080
 // @BasePath /api/v1
 // @schemes http
+
+// @securityDefinitions.apikey	ApiKeyAuth
+// @in							header
+// @name						Authorization
+// @description				"Type 'Bearer TOKEN' to correctly set the API Key"
 func main() {
 
 	app := bootstrap.App()
@@ -39,13 +44,21 @@ func main() {
 
 	timeout := time.Duration(env.ContextTimeout) * time.Second
 
-	gin := gin.Default()
+	if env.AppEnv == "development" {
+		gin.SetMode(gin.DebugMode)
+	} else if env.AppEnv == "production" {
+		gin.SetMode(gin.ReleaseMode)
+	} else {
 
-	route.Setup(env, timeout, db, gin)
+	}
+
+	ginApp := gin.Default()
+
+	route.Setup(env, timeout, db, ginApp)
 
 	docs.SwaggerInfo.BasePath = "/api/v1"
 
-	gin.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	ginApp.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
-	gin.Run(env.ServerAddress)
+	ginApp.Run(env.ServerAddress)
 }

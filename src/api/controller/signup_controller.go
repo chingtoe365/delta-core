@@ -21,10 +21,11 @@ type SignupController struct {
 // @Schemes
 // @Description User sign up
 // @Tags Authentication
+// @Param request body domain.SignupRequest true "Sign Request"
 // @Accept json
 // @Produce json
 // @Success 200
-// @Router /signup [get]
+// @Router /signup [post]
 func (sc *SignupController) Signup(c *gin.Context) {
 	var request domain.SignupRequest
 
