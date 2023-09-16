@@ -1,4 +1,42 @@
 basePath: /api/v1
+definitions:
+  domain.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  domain.RefreshTokenRequest:
+    properties:
+      refreshToken:
+        type: string
+    required:
+    - refreshToken
+    type: object
+  domain.SignupRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  domain.Task:
+    properties:
+      title:
+        type: string
+    required:
+    - title
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -14,10 +52,17 @@ info:
   version: "1.0"
 paths:
   /login:
-    get:
+    post:
       consumes:
       - application/json
       description: User login through here
+      parameters:
+      - description: Login Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.LoginRequest'
       produces:
       - application/json
       responses:
@@ -36,14 +81,23 @@ paths:
       responses:
         "200":
           description: OK
+      security:
+      - ApiKeyAuth: []
       summary: Get user profile
       tags:
       - Authentication
   /refresh:
-    get:
+    post:
       consumes:
       - application/json
       description: Refresh token
+      parameters:
+      - description: Refresh Token Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.RefreshTokenRequest'
       produces:
       - application/json
       responses:
@@ -53,10 +107,17 @@ paths:
       tags:
       - Authentication
   /signup:
-    get:
+    post:
       consumes:
       - application/json
       description: User sign up
+      parameters:
+      - description: Sign Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.SignupRequest'
       produces:
       - application/json
       responses:
@@ -75,6 +136,8 @@ paths:
       responses:
         "200":
           description: OK
+      security:
+      - ApiKeyAuth: []
       summary: Fetch task
       tags:
       - Task
@@ -82,14 +145,29 @@ paths:
       consumes:
       - application/json
       description: Create task
+      parameters:
+      - description: Create Task
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Task'
       produces:
       - application/json
       responses:
         "200":
           description: OK
+      security:
+      - ApiKeyAuth: []
       summary: Create task
       tags:
       - Task
 schemes:
 - http
+securityDefinitions:
+  ApiKeyAuth:
+    description: '"Type ''Bearer TOKEN'' to correctly set the API Key"'
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

@@ -25,7 +25,7 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/login": {
-            "get": {
+            "post": {
                 "description": "User login through here",
                 "consumes": [
                     "application/json"
@@ -37,6 +37,17 @@ const docTemplate = `{
                     "Authentication"
                 ],
                 "summary": "User Login endpoint",
+                "parameters": [
+                    {
+                        "description": "Login Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.LoginRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -46,6 +57,11 @@ const docTemplate = `{
         },
         "/profile": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get user profile",
                 "consumes": [
                     "application/json"
@@ -65,7 +81,7 @@ const docTemplate = `{
             }
         },
         "/refresh": {
-            "get": {
+            "post": {
                 "description": "Refresh token",
                 "consumes": [
                     "application/json"
@@ -77,6 +93,17 @@ const docTemplate = `{
                     "Authentication"
                 ],
                 "summary": "Refresh token",
+                "parameters": [
+                    {
+                        "description": "Refresh Token Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.RefreshTokenRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -85,7 +112,7 @@ const docTemplate = `{
             }
         },
         "/signup": {
-            "get": {
+            "post": {
                 "description": "User sign up",
                 "consumes": [
                     "application/json"
@@ -97,6 +124,17 @@ const docTemplate = `{
                     "Authentication"
                 ],
                 "summary": "User sign up",
+                "parameters": [
+                    {
+                        "description": "Sign Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.SignupRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -106,6 +144,11 @@ const docTemplate = `{
         },
         "/task": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Fetch task",
                 "consumes": [
                     "application/json"
@@ -124,6 +167,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create task",
                 "consumes": [
                     "application/json"
@@ -135,12 +183,89 @@ const docTemplate = `{
                     "Task"
                 ],
                 "summary": "Create task",
+                "parameters": [
+                    {
+                        "description": "Create Task",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Task"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK"
                     }
                 }
             }
+        }
+    },
+    "definitions": {
+        "domain.LoginRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.RefreshTokenRequest": {
+            "type": "object",
+            "required": [
+                "refreshToken"
+            ],
+            "properties": {
+                "refreshToken": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.SignupRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.Task": {
+            "type": "object",
+            "required": [
+                "title"
+            ],
+            "properties": {
+                "title": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "description": "\"Type 'Bearer TOKEN' to correctly set the API Key\"",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`
