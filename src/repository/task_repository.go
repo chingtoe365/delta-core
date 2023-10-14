@@ -52,3 +52,21 @@ func (tr *taskRepository) FetchByUserID(c context.Context, userID string) ([]dom
 
 	return tasks, err
 }
+
+func (tr *taskRepository) FetchAll(c context.Context) ([]domain.Task, error) {
+	collection := tr.database.Collection(tr.collection)
+
+	var tasks []domain.Task
+
+	cursor, err := collection.Find(c, bson.M{})
+	if err != nil {
+		return nil, err
+	}
+
+	err = cursor.All(c, &tasks)
+	if tasks == nil {
+		return []domain.Task{}, err
+	}
+
+	return tasks, err
+}

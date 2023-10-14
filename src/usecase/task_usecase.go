@@ -30,3 +30,8 @@ func (tu *taskUsecase) FetchByUserID(c context.Context, userID string) ([]domain
 	defer cancel()
 	return tu.taskRepository.FetchByUserID(ctx, userID)
 }
+func (tu *taskUsecase) FetchAll(c context.Context) ([]domain.Task, error) {
+	ctx, cancel := context.WithTimeout(c, tu.contextTimeout)
+	defer cancel()
+	return tu.taskRepository.FetchAll(ctx)
+}

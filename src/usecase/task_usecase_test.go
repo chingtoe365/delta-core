@@ -32,6 +32,7 @@ func TestFetchByUserID(t *testing.T) {
 		mockListTask = append(mockListTask, mockTask)
 
 		mockTaskRepository.On("FetchByUserID", mock.Anything, userID).Return(mockListTask, nil).Once()
+		mockTaskRepository.On("FetchAll", mock.Anything).Return(mockListTask, nil).Once()
 
 		u := usecase.NewTaskUsecase(mockTaskRepository, time.Second*2)
 

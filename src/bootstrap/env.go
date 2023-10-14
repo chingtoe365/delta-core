@@ -24,7 +24,9 @@ type Env struct {
 
 func NewEnv() *Env {
 	env := Env{}
-	viper.SetConfigFile("/envs/.env")
+	// viper.SetConfigFile("/envs/.env")
+	// to run locally
+	viper.SetConfigFile(".env")
 
 	err := viper.ReadInConfig()
 	if err != nil {

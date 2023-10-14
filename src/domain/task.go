@@ -19,9 +19,11 @@ type Task struct {
 type TaskRepository interface {
 	Create(c context.Context, task *Task) error
 	FetchByUserID(c context.Context, userID string) ([]Task, error)
+	FetchAll(c context.Context) ([]Task, error)
 }
 
 type TaskUsecase interface {
 	Create(c context.Context, task *Task) error
 	FetchByUserID(c context.Context, userID string) ([]Task, error)
+	FetchAll(c context.Context) ([]Task, error)
 }

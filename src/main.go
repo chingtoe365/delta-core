@@ -61,4 +61,5 @@ func main() {
 	ginApp.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	ginApp.Run(env.ServerAddress)
+
 }

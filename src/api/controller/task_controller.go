@@ -1,6 +1,9 @@
 package controller
 
 import (
+	pubsub "delta-core/services"
+	"fmt"
+
 	"net/http"
 
 	"delta-core/domain"
@@ -47,10 +50,17 @@ func (tc *TaskController) Create(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
+	go startSubscribe(task)
 
 	c.JSON(http.StatusOK, domain.SuccessResponse{
-		Message: "Task created successfully",
+		Message: "Task created successfully1",
 	})
+}
+
+func startSubscribe(task domain.Task) {
+	fmt.Printf("Start a new subscription with subClientID = taskId: %v, topic = task.Title: %s. ", task.ID.Hex(), task.Title)
+	// start a new goroutine to receive new messages
+	go pubsub.CreateSubClient(task.ID.Hex(), task.Title)
 }
 
 // PingExample godoc

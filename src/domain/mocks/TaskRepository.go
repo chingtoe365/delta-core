@@ -50,6 +50,12 @@ func (_m *TaskRepository) FetchByUserID(c context.Context, userID string) ([]dom
 
 	return r0, r1
 }
+// FetchByUserID provides a mock function with given fields: c, userID
+func (_m *TaskRepository) FetchAll(c context.Context) ([]domain.Task, error) {
+	var r0 []domain.Task
+	var r1 error
+	return r0, r1
+}
 
 type mockConstructorTestingTNewTaskRepository interface {
 	mock.TestingT
