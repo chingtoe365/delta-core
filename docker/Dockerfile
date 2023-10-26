@@ -12,4 +12,6 @@ RUN chmod +x /start.sh
 ARG ENV_FILE=${ENV_FILE}
 COPY $ENV_FILE /envs/.env
 
+RUN go mod download
+
 #CMD ["/app/main"]
