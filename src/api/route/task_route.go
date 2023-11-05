@@ -22,7 +22,6 @@ func NewTaskRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database,
 	tc := &controller.TaskController{
 		TaskUsecase: usecase.NewTaskUsecase(tr, timeout),
 	}
-
 	var taskCollection = db.Collection(domain.CollectionTask)
 	var tasks []domain.Task
 
@@ -33,7 +32,7 @@ func NewTaskRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database,
 
 	cursor.All(context.TODO(), &tasks)
 
-	pubsub.InitialiseSubClients(tasks)
+	pubsub.InitialiseSubClients(env, tasks)
 
 	group.GET("/task", tc.Fetch)
 	group.POST("/task", tc.Create)

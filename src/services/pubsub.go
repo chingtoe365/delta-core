@@ -1,6 +1,7 @@
 package pubsub
 
 import (
+	"delta-core/bootstrap"
 	"delta-core/domain"
 	"fmt"
 	"time"
@@ -21,14 +22,16 @@ var connectLostHandler mqtt.ConnectionLostHandler = func(client mqtt.Client, err
 	fmt.Printf("Connect lost: %v", err)
 }
 
-func CreateSubClient(taskId string, topic string) mqtt.Client {
-	var broker = "localhost"
-	var port = 1883
+func CreateSubClient(env *bootstrap.Env, taskId string, topic string) mqtt.Client {
+	var broker = env.MqttHost
+	var port = env.MqttPort
+	var user = env.MqttUser
+	var password = env.MqttPass
 	opts := mqtt.NewClientOptions()
 	opts.AddBroker(fmt.Sprintf("tcp://%s:%d", broker, port))
 	opts.SetClientID("go_mqtt_client")
-	opts.SetUsername("emqx")
-	opts.SetPassword("public")
+	opts.SetUsername(user)
+	opts.SetPassword(password)
 	opts.SetDefaultPublishHandler(messageHandler)
 	opts.SetClientID(taskId)
 	opts.OnConnect = connectHandler
@@ -47,9 +50,9 @@ func CreateSubClient(taskId string, topic string) mqtt.Client {
 // }
 
 // called when server start up
-func InitialiseSubClients(tasks []domain.Task) {
+func InitialiseSubClients(env *bootstrap.Env, tasks []domain.Task) {
 	for _, item := range tasks {
-		go CreateSubClient(item.ID.Hex(), item.Title)
+		go CreateSubClient(env, item.ID.Hex(), item.Title)
 	}
 }
 
