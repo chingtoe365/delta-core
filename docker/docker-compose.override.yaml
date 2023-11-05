@@ -16,3 +16,17 @@ services:
 
   mongo_express:
     env_file: .env.local
+
+  mqtt-broker:
+    #    <<: *user
+    image: eclipse-mosquitto:latest
+    user: mosquitto
+    volumes:
+      - ./mqtt:/mosquitto/config/
+      #    - ./log:/mosquitto/log/:rw
+      - ./mqtt/data:/mosquitto/data
+    ports:
+      - 1883:1883
+      - 9001:9001
+    networks:
+      - delta-core-net
