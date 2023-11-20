@@ -2,7 +2,6 @@ package controller
 
 import (
 	"delta-core/bootstrap"
-	pubsub "delta-core/services"
 	"fmt"
 
 	"net/http"
@@ -14,13 +13,14 @@ import (
 )
 
 type TaskController struct {
-	TaskUsecase domain.TaskUsecase
+	TaskUsecase      domain.TaskUsecase
+	SignalSubUsecase domain.SignalSubUsecase
 }
 
 // PingExample godoc
-// @Summary Create task
+// @Summary Subsribe
 // @Schemes
-// @Description Create task
+// @Description Subsribe to signal
 // @Tags Task
 // @Security ApiKeyAuth
 // @Param task body domain.Task true "Create Task"
@@ -56,17 +56,11 @@ func (tc *TaskController) Create(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
-	go startSubscribe(env, task)
+	go tc.SignalSubUsecase.Subscribe(env, task)
 
 	c.JSON(http.StatusOK, domain.SuccessResponse{
-		Message: "Task created successfully1",
+		Message: "Task created successfully",
 	})
-}
-
-func startSubscribe(env *bootstrap.Env, task domain.Task) {
-	fmt.Printf("Start a new subscription with subClientID = taskId: %v, topic = task.Title: %s. ", task.ID.Hex(), task.Title)
-	// start a new goroutine to receive new messages
-	go pubsub.CreateSubClient(env, task.ID.Hex(), task.Title)
 }
 
 // PingExample godoc
@@ -89,4 +83,36 @@ func (u *TaskController) Fetch(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, tasks)
+}
+
+// PingExample godoc
+// @Summary Delete task - unsubsribe
+// @Schemes
+// @Description Unsubsribe
+// @Tags Task
+// @Param taskId query string true "Unsubscribe signal"
+// @Security ApiKeyAuth
+// @Accept json
+// @Produce json
+// @Success 200
+// @Router /task [delete]
+func (u *TaskController) Cancel(c *gin.Context) {
+	// userID := c.GetString("x-user-id")
+	taskId := c.Query("taskId")
+	task, err := u.TaskUsecase.FetchByTaskID(c, taskId)
+	if err != nil {
+		c.JSON(http.StatusNotFound, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+	fmt.Printf(">> going to unsubsribe task ID: %s Title: %s", task.ID.Hex(), task.Title)
+	u.SignalSubUsecase.Unsubscribe(&task)
+	err = u.TaskUsecase.Delete(c, &task)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, domain.SuccessResponse{
+		Message: "Unsubscribed successfully",
+	})
 }
