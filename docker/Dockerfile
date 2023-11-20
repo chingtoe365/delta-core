@@ -11,6 +11,9 @@ RUN mkdir /app
 COPY ./src /app
 WORKDIR /app
 
+RUN go install github.com/swaggo/swag/cmd/swag@latest
+RUN swag init
+
 COPY ./docker/scripts/start.sh /start.sh
 RUN chmod +x /start.sh
 
