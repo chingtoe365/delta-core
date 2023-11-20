@@ -35,3 +35,14 @@ func (tu *taskUsecase) FetchAll(c context.Context) ([]domain.Task, error) {
 	defer cancel()
 	return tu.taskRepository.FetchAll(ctx)
 }
+func (tu *taskUsecase) Delete(c context.Context, task *domain.Task) error {
+	ctx, cancel := context.WithTimeout(c, tu.contextTimeout)
+	defer cancel()
+	return tu.taskRepository.Delete(ctx, task)
+}
+
+func (tu *taskUsecase) FetchByTaskID(c context.Context, taskId string) (domain.Task, error) {
+	ctx, cancel := context.WithTimeout(c, tu.contextTimeout)
+	defer cancel()
+	return tu.taskRepository.FetchById(ctx, taskId)
+}
