@@ -30,3 +30,33 @@ services:
       - 9001:9001
     networks:
       - delta-core-net
+  # mqtt-dashboard:
+  #   image: secanis/mqtt-dashboard
+  #   environment:
+  #     - MQTT_HOST=mqtt-broker
+  #     - MQTT_USERNAME=admin
+  #     - MQTT_PASSWORD=$7$101$xuOfObQdv0Hi2p0A$o+J3vzbpm0hekukYw73tT3fiB2Ogi1UCJgbzNyFA0GOgxAo79hqfTeXVr062KoD5nCphwV+1V/NxlMzwnV5Kvg==
+  #     - REDIS_HOST=redis
+  #     - REDIS_PORT=6379
+  #   ports:
+  #     - 3333:3333
+  #   depends_on:
+  #     - mqtt-broker
+  #     - redis
+  #   networks:
+  #     - delta-core-net
+
+  # redis:
+  #   image: redis:latest
+  #   restart: always
+  #   ports:
+  #     - "6379:6379"
+  #   # volumes:
+  #   #   - /path/to/local/dаta:/root/redis
+  #   #   - /path/to/local/redis.conf:/usr/local/etc/redis/redis.conf
+  #   environment:
+  #     # - REDIS_PASSWORD=r1d1s
+  #     - REDIS_PORT=6379
+  #     - REDIS_DATABASES=16
+  #   networks:
+  #     - delta-core-net

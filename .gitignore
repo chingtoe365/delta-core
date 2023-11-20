@@ -7,3 +7,9 @@ bin/
 
 # local database 
 docker/database/*
+
+# local mqtt
+docker/mqtt/*
+
+# local docker override
+docker/docker-compose.override.yaml
