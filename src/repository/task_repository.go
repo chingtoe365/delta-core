@@ -30,6 +30,22 @@ func (tr *taskRepository) Create(c context.Context, task *domain.Task) error {
 	return err
 }
 
+func (tr *taskRepository) FetchById(c context.Context, taskId string) (domain.Task, error) {
+	collection := tr.database.Collection(tr.collection)
+
+	var task domain.Task
+
+	idHex, err := primitive.ObjectIDFromHex(taskId)
+	if err != nil {
+		return domain.Task{}, err
+	}
+
+	err = collection.FindOne(c, bson.M{"_id": idHex}).Decode(&task)
+
+	return task, err
+
+}
+
 func (tr *taskRepository) FetchByUserID(c context.Context, userID string) ([]domain.Task, error) {
 	collection := tr.database.Collection(tr.collection)
 
@@ -51,4 +67,28 @@ func (tr *taskRepository) FetchByUserID(c context.Context, userID string) ([]dom
 	}
 
 	return tasks, err
+}
+
+func (tr *taskRepository) FetchAll(c context.Context) ([]domain.Task, error) {
+	collection := tr.database.Collection(tr.collection)
+
+	var tasks []domain.Task
+
+	cursor, err := collection.Find(c, bson.M{})
+	if err != nil {
+		return nil, err
+	}
+
+	err = cursor.All(c, &tasks)
+	if tasks == nil {
+		return []domain.Task{}, err
+	}
+
+	return tasks, err
+}
+func (tr *taskRepository) Delete(c context.Context, task *domain.Task) error {
+	collection := tr.database.Collection(tr.collection)
+
+	_, err := collection.DeleteOne(c, task)
+	return err
 }

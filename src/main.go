@@ -13,6 +13,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func ApiEnvMiddleware(env *bootstrap.Env) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Set("env", env)
+		c.Next()
+	}
+}
+
 // @title DeltaTrade Core Swagger API
 // @version 1.0
 // @description Swagger API documentation for DeltaTrade core service.
@@ -54,6 +61,9 @@ func main() {
 
 	ginApp := gin.Default()
 
+	// attaching global middle to pass env object into context
+	ginApp.Use(ApiEnvMiddleware(env))
+
 	route.Setup(env, timeout, db, ginApp)
 
 	docs.SwaggerInfo.BasePath = "/api/v1"
@@ -61,4 +71,5 @@ func main() {
 	ginApp.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	ginApp.Run(env.ServerAddress)
+
 }

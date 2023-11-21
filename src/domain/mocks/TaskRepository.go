@@ -14,6 +14,11 @@ type TaskRepository struct {
 	mock.Mock
 }
 
+// FetchById implements domain.TaskRepository.
+func (*TaskRepository) FetchById(c context.Context, taskId string) (domain.Task, error) {
+	panic("unimplemented")
+}
+
 // Create provides a mock function with given fields: c, task
 func (_m *TaskRepository) Create(c context.Context, task *domain.Task) error {
 	ret := _m.Called(c, task)
@@ -25,6 +30,12 @@ func (_m *TaskRepository) Create(c context.Context, task *domain.Task) error {
 		r0 = ret.Error(0)
 	}
 
+	return r0
+}
+
+// Delete
+func (_m *TaskRepository) Delete(c context.Context, task *domain.Task) error {
+	var r0 error
 	return r0
 }
 
@@ -48,6 +59,13 @@ func (_m *TaskRepository) FetchByUserID(c context.Context, userID string) ([]dom
 		r1 = ret.Error(1)
 	}
 
+	return r0, r1
+}
+
+// FetchByUserID provides a mock function with given fields: c, userID
+func (_m *TaskRepository) FetchAll(c context.Context) ([]domain.Task, error) {
+	var r0 []domain.Task
+	var r1 error
 	return r0, r1
 }
 

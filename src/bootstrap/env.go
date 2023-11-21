@@ -16,6 +16,10 @@ type Env struct {
 	DBUser                 string `mapstructure:"DB_USER"`
 	DBPass                 string `mapstructure:"DB_PASS"`
 	DBName                 string `mapstructure:"DB_NAME"`
+	MqttHost               string `mapstructure:"MQTT_HOST"`
+	MqttPort               int    `mapstructure:"MQTT_PORT"`
+	MqttUser               string `mapstructure:"MQTT_USER"`
+	MqttPass               string `mapstructure:"MQTT_PASSWORD"`
 	AccessTokenExpiryHour  int    `mapstructure:"ACCESS_TOKEN_EXPIRY_HOUR"`
 	RefreshTokenExpiryHour int    `mapstructure:"REFRESH_TOKEN_EXPIRY_HOUR"`
 	AccessTokenSecret      string `mapstructure:"ACCESS_TOKEN_SECRET"`
@@ -25,6 +29,8 @@ type Env struct {
 func NewEnv() *Env {
 	env := Env{}
 	viper.SetConfigFile("/envs/.env")
+	// to run locally
+	// viper.SetConfigFile(".env")
 
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -40,5 +46,6 @@ func NewEnv() *Env {
 		log.Println("The App is running in development env")
 	}
 
+	// fmt.Println(env)
 	return &env
 }
