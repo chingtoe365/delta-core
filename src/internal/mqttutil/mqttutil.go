@@ -1,16 +1,25 @@
-package bootstrap
+package mqttutil
 
 import (
 	"crypto/rand"
+	"delta-core/bootstrap"
+	"delta-core/domain"
+	"delta-core/internal/notificationutil"
 	"encoding/hex"
 	"fmt"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
-var messageHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
-	var options = client.OptionsReader()
-	fmt.Printf("ClientId: %s, Received message: %s, from topic: %s\n", options.ClientID(), msg.Payload(), msg.Topic())
+func messageHandlerWrapper(p *domain.Profile) func(client mqtt.Client, msg mqtt.Message) {
+	// return message handler
+	return func(client mqtt.Client, msg mqtt.Message) {
+		var options = client.OptionsReader()
+		fmt.Printf("ClientId: %s, Received message: %s, from topic: %s\n", options.ClientID(), msg.Payload(), msg.Topic())
+		var a domain.Alert
+		a.ParseIn(string(msg.Payload()), msg.Topic())
+		notificationutil.SendMail(p.Email, a.FormatEmail())
+	}
 }
 
 var connectHandler mqtt.OnConnectHandler = func(client mqtt.Client) {
@@ -29,7 +38,7 @@ func randomHex(n int) (string, error) {
 	return hex.EncodeToString(bytes), nil
 }
 
-func NewMqttClient(env *Env) mqtt.Client {
+func NewMqttClient(env *bootstrap.Env, profile *domain.Profile) mqtt.Client {
 	var broker = env.MqttHost
 	var port = env.MqttPort
 	var user = env.MqttUser
@@ -38,7 +47,7 @@ func NewMqttClient(env *Env) mqtt.Client {
 	opts.AddBroker(fmt.Sprintf("tcp://%s:%d", broker, port))
 	opts.SetUsername(user)
 	opts.SetPassword(password)
-	opts.SetDefaultPublishHandler(messageHandler)
+	opts.SetDefaultPublishHandler(messageHandlerWrapper(profile))
 	clientId, _ := randomHex(20)
 	opts.SetClientID(clientId)
 	opts.OnConnect = connectHandler
