@@ -15,6 +15,7 @@ import (
 type TaskController struct {
 	TaskUsecase      domain.TaskUsecase
 	SignalSubUsecase domain.SignalSubUsecase
+	ProfileUsecase   domain.ProfileUsecase
 }
 
 // PingExample godoc
@@ -45,6 +46,12 @@ func (tc *TaskController) Create(c *gin.Context) {
 	userID := c.GetString("x-user-id")
 	task.ID = primitive.NewObjectID()
 
+	userProfile, err := tc.ProfileUsecase.GetProfileByID(c, userID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+
 	task.UserID, err = primitive.ObjectIDFromHex(userID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
@@ -56,7 +63,7 @@ func (tc *TaskController) Create(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
-	go tc.SignalSubUsecase.Subscribe(env, task)
+	go tc.SignalSubUsecase.Subscribe(env, task, userProfile)
 
 	c.JSON(http.StatusOK, domain.SuccessResponse{
 		Message: "Task created successfully",

@@ -3,6 +3,8 @@ package controller
 import (
 	"crypto/rand"
 	"delta-core/bootstrap"
+	"delta-core/domain"
+	"delta-core/internal/mqttutil"
 	"encoding/hex"
 	"fmt"
 
@@ -34,7 +36,10 @@ func randomHex(n int) (string, error) {
 // @Router /test [get]
 func (tc *TestController) Test(c *gin.Context) {
 	var env *bootstrap.Env = c.MustGet("env").(*bootstrap.Env)
-	client := bootstrap.NewMqttClient(env)
+	p := domain.Profile{
+		Name: "foo", Email: "bar",
+	}
+	client := mqttutil.NewMqttClient(env, &p)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	}
