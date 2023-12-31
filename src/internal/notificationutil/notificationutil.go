@@ -1,14 +1,17 @@
 package notificationutil
 
 import (
+	"delta-core/bootstrap"
 	"fmt"
 	"net/smtp"
 )
 
-func SendMail(to string, body string) {
+func SendMail(env *bootstrap.Env, to string, body string) {
 	fmt.Println("Sending email")
-	from := "chingtoe@gmail.com"
-	password := "hpmx pize tnvr msew"
+	from := env.GmailSender
+	password := env.GmailSenderAppPassword
+	fmt.Println(from)
+	fmt.Println(password)
 
 	msg := "From: " + from + "\n" + "To: " + to + "\n" + "Subject: Delta signal detected\n\n" + body
 	fmt.Println("Ready to send email")

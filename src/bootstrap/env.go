@@ -24,6 +24,8 @@ type Env struct {
 	RefreshTokenExpiryHour int    `mapstructure:"REFRESH_TOKEN_EXPIRY_HOUR"`
 	AccessTokenSecret      string `mapstructure:"ACCESS_TOKEN_SECRET"`
 	RefreshTokenSecret     string `mapstructure:"REFRESH_TOKEN_SECRET"`
+	GmailSender            string `mapstructure:"GMAIL_SENDER"`
+	GmailSenderAppPassword string `mapstructure:"GMAIL_SENDER_APP_PASSWORD"`
 }
 
 func NewEnv() *Env {

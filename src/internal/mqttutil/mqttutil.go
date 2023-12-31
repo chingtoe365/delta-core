@@ -11,14 +11,14 @@ import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
-func messageHandlerWrapper(p *domain.Profile) func(client mqtt.Client, msg mqtt.Message) {
+func messageHandlerWrapper(env *bootstrap.Env, p *domain.Profile) func(client mqtt.Client, msg mqtt.Message) {
 	// return message handler
 	return func(client mqtt.Client, msg mqtt.Message) {
 		var options = client.OptionsReader()
 		fmt.Printf("ClientId: %s, Received message: %s, from topic: %s\n", options.ClientID(), msg.Payload(), msg.Topic())
 		var a domain.Alert
 		a.ParseIn(string(msg.Payload()), msg.Topic())
-		notificationutil.SendMail(p.Email, a.FormatEmail())
+		notificationutil.SendMail(env, p.Email, a.FormatEmail())
 	}
 }
 
@@ -47,7 +47,7 @@ func NewMqttClient(env *bootstrap.Env, profile *domain.Profile) mqtt.Client {
 	opts.AddBroker(fmt.Sprintf("tcp://%s:%d", broker, port))
 	opts.SetUsername(user)
 	opts.SetPassword(password)
-	opts.SetDefaultPublishHandler(messageHandlerWrapper(profile))
+	opts.SetDefaultPublishHandler(messageHandlerWrapper(env, profile))
 	clientId, _ := randomHex(20)
 	opts.SetClientID(clientId)
 	opts.OnConnect = connectHandler
