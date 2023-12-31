@@ -18,10 +18,13 @@ import (
 
 func NewTaskRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database, group *gin.RouterGroup) {
 	tr := repository.NewTaskRepository(db, domain.CollectionTask)
+	pr := repository.NewUserRepository(db, domain.CollectionUser)
+	puc := usecase.NewProfileUsecase(pr, timeout)
 
 	tc := &controller.TaskController{
 		TaskUsecase:      usecase.NewTaskUsecase(tr, timeout),
 		SignalSubUsecase: usecase.NewSingalSubUsecase(tr, timeout),
+		ProfileUsecase:   usecase.NewProfileUsecase(pr, timeout),
 	}
 	var taskCollection = db.Collection(domain.CollectionTask)
 	var tasks []domain.Task
@@ -33,7 +36,7 @@ func NewTaskRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database,
 
 	cursor.All(context.TODO(), &tasks)
 
-	tc.SignalSubUsecase.InitialiseSingalSubs(env, tasks)
+	tc.SignalSubUsecase.InitialiseSingalSubs(context.TODO(), env, puc, tasks)
 
 	group.GET("/task", tc.Fetch)
 	group.POST("/task", tc.Create)

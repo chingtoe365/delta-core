@@ -5,6 +5,9 @@ bin/
 # .env
 .vscode
 
+# swagger documentation
+src/docs/*
+
 # local database 
 docker/database/*
 

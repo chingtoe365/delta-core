@@ -1,8 +1,10 @@
 package usecase
 
 import (
+	"context"
 	"delta-core/bootstrap"
 	"delta-core/domain"
+	"delta-core/internal/mqttutil"
 	"fmt"
 	"time"
 )
@@ -20,9 +22,9 @@ func NewSingalSubUsecase(taskRepository domain.TaskRepository, timeout time.Dura
 	}
 }
 
-func (ssu *SingalSubUsecase) Subscribe(env *bootstrap.Env, task domain.Task) {
+func (ssu *SingalSubUsecase) Subscribe(env *bootstrap.Env, task domain.Task, profile *domain.Profile) {
 	// create and connect clients
-	var client = bootstrap.NewMqttClient(env)
+	var client = mqttutil.NewMqttClient(env, profile)
 
 	// fmt.Printf(">> Task ID %s\n", task.ID.Hex())
 	_, ok := ssu.TaskMap.Status[task.ID.Hex()]
@@ -64,11 +66,16 @@ func (ssu *SingalSubUsecase) Unsubscribe(task *domain.Task) {
 }
 
 // called when task router start up
-func (ssu *SingalSubUsecase) InitialiseSingalSubs(env *bootstrap.Env, tasks []domain.Task) {
+func (ssu *SingalSubUsecase) InitialiseSingalSubs(ctx context.Context, env *bootstrap.Env, puc domain.ProfileUsecase, tasks []domain.Task) {
 	// unlock task map channel first
 	go ssu.TaskMap.Unlock()
 	for _, item := range tasks {
 		fmt.Printf("Starting task %s ID: %s\n", item.Title, item.ID.Hex())
-		go ssu.Subscribe(env, item)
+		fmt.Println(item.UserID.Hex())
+		profile, err := puc.GetProfileByID(ctx, item.UserID.Hex())
+		if err != nil {
+			panic(err)
+		}
+		go ssu.Subscribe(env, item, profile)
 	}
 }

@@ -67,7 +67,7 @@ type TaskUsecase interface {
 }
 
 type SignalSubUsecase interface {
-	Subscribe(env *bootstrap.Env, task Task)
+	Subscribe(env *bootstrap.Env, task Task, profile *Profile)
 	Unsubscribe(task *Task)
-	InitialiseSingalSubs(env *bootstrap.Env, tasks []Task)
+	InitialiseSingalSubs(c context.Context, env *bootstrap.Env, puc ProfileUsecase, tasks []Task)
 }
