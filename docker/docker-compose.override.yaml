@@ -22,7 +22,7 @@ services:
     image: eclipse-mosquitto:latest
     user: mosquitto
     volumes:
-      - ./mqtt:/mosquitto/config/
+      - ./mqtt/config:/mosquitto/config/
       #    - ./log:/mosquitto/log/:rw
       - ./mqtt/data:/mosquitto/data
     ports:

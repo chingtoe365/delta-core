@@ -1,0 +1,396 @@
+{
+    "items": [
+        {
+            "name": "EURUSD",
+            "category": "Forex"
+        },
+        {
+            "name": "GBPUSD",
+            "category": "Forex"
+        },
+        {
+            "name": "AUDUSD",
+            "category": "Forex"
+        },
+        {
+            "name": "NZDUSD",
+            "category": "Forex"
+        },
+        {
+            "name": "USDJPY",
+            "category": "Forex"
+        },
+        {
+            "name": "USDCNY",
+            "category": "Forex"
+        },
+        {
+            "name": "USDCHF",
+            "category": "Forex"
+        },
+        {
+            "name": "USDCAD",
+            "category": "Forex"
+        },
+        {
+            "name": "USDMXN",
+            "category": "Forex"
+        },
+        {
+            "name": "USDINR",
+            "category": "Forex"
+        },
+        {
+            "name": "USDBRL",
+            "category": "Forex"
+        },
+        {
+            "name": "USDRUB",
+            "category": "Forex"
+        },
+        {
+            "name": "USDKRW",
+            "category": "Forex"
+        },
+        {
+            "name": "USDTRY",
+            "category": "Forex"
+        },
+        {
+            "name": "DXY",
+            "category": "Forex"
+        },
+        {
+            "name": "USDSEK",
+            "category": "Forex"
+        },
+        {
+            "name": "USDPLN",
+            "category": "Forex"
+        },
+        {
+            "name": "USDNOK",
+            "category": "Forex"
+        },
+        {
+            "name": "USDZAR",
+            "category": "Forex"
+        },
+        {
+            "name": "USDDKK",
+            "category": "Forex"
+        },
+        {
+            "name": "USDSGD",
+            "category": "Forex"
+        },
+        {
+            "name": "USDILS",
+            "category": "Forex"
+        },
+        {
+            "name": "USDHKD",
+            "category": "Forex"
+        },
+        {
+            "name": "USDCLP",
+            "category": "Forex"
+        },
+        {
+            "name": "USDPKR",
+            "category": "Forex"
+        },
+        {
+            "name": "USDCZK",
+            "category": "Forex"
+        },
+        {
+            "name": "USDHUF",
+            "category": "Forex"
+        },
+        {
+            "name": "Crude Oil USD/Bbl",
+            "category": "Energy"
+        },
+        {
+            "name": "Brent USD/Bbl",
+            "category": "Energy"
+        },
+        {
+            "name": "Natural gas USD/MMBtu",
+            "category": "Energy"
+        },
+        {
+            "name": "Gasoline USD/Gal",
+            "category": "Energy"
+        },
+        {
+            "name": "Heating Oil USD/Gal",
+            "category": "Energy"
+        },
+        {
+            "name": "Coal USD/T",
+            "category": "Energy"
+        },
+        {
+            "name": "TTF Gas EUR/MWh",
+            "category": "Energy"
+        },
+        {
+            "name": "UK Gas GBp/thm",
+            "category": "Energy"
+        },
+        {
+            "name": "Ethanol USD/Gal",
+            "category": "Energy"
+        },
+        {
+            "name": "Naphtha USD/T",
+            "category": "Energy"
+        },
+        {
+            "name": "Uranium USD/Lbs",
+            "category": "Energy"
+        },
+        {
+            "name": "Propane USD/Gal",
+            "category": "Energy"
+        },
+        {
+            "name": "Methanol CNY/T",
+            "category": "Energy"
+        },
+        {
+            "name": "Urals Oil USD/Bbl",
+            "category": "Energy"
+        },
+        {
+            "name": "Gold USD/t.oz",
+            "category": "Metal"
+        },
+        {
+            "name": "Silver USD/t.oz",
+            "category": "Metal"
+        },
+        {
+            "name": "Copper USD/Lbs ",
+            "category": "Metal"
+        },
+        {
+            "name": "Steel CNY/T",
+            "category": "Metal"
+        },
+        {
+            "name": "Iron Ore USD/T",
+            "category": "Metal"
+        },
+        {
+            "name": "Lithium CNY/T",
+            "category": "Metal"
+        },
+        {
+            "name": "Platinum USD/t.oz",
+            "category": "Metal"
+        },
+        {
+            "name": "Titanium USD/KG",
+            "category": "Metal"
+        },
+        {
+            "name": "HRC Steel USD/T",
+            "category": "Metal"
+        },
+        {
+            "name": "Soybeans USd/Bu",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Wheat USd/Bu",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Lumber USD/1000 board feet",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Palm Oil MYR/T",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Cheese USD/Lbs",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Milk USD/CWT",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Rubber USD Cents / Kg",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Orange Juice USd/Lbs",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Coffee USd/Lbs",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Cotton USd/Lbs",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Cocoa USD/T",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Rice USD/cwt",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Canola CAD/T",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Oat USd/Bu",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Wool AUD/100Kg",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Sugar USd/Lbs",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Tea USD/Kgs",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Sunflower Oil USD/T",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Rapeseed EUR/T",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Butter EUR/T",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Potatoes EUR/100KG",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Corn USd/BU",
+            "category": "Agriculture"
+        },
+        {
+            "name": "Bitumen CNY/T",
+            "category": "Industrial"
+        },
+        {
+            "name": "Cobalt USD/T",
+            "category": "Industrial"
+        },
+        {
+            "name": "Lead USD/T",
+            "category": "Industrial"
+        },
+        {
+            "name": "Aluminum USD/T",
+            "category": "Industrial"
+        },
+        {
+            "name": "Tin USD/T",
+            "category": "Industrial"
+        },
+        {
+            "name": "Zinc USD/T",
+            "category": "Industrial"
+        },
+        {
+            "name": "Nickel USD/T",
+            "category": "Industrial"
+        },
+        {
+            "name": "Molybdenum USD/Kg",
+            "category": "Industrial"
+        },
+        {
+            "name": "Palladium USD/t.oz",
+            "category": "Industrial"
+        },
+        {
+            "name": "Rhodium USD/t oz.",
+            "category": "Industrial"
+        },
+        {
+            "name": "Polyethylene CNY/T",
+            "category": "Industrial"
+        },
+        {
+            "name": "Polyvinyl CNY/T",
+            "category": "Industrial"
+        },
+        {
+            "name": "Polypropylene CNY/T",
+            "category": "Industrial"
+        },
+        {
+            "name": "Soda Ash CNY/T",
+            "category": "Industrial"
+        },
+        {
+            "name": "Neodymium CNY/T",
+            "category": "Industrial"
+        },
+        {
+            "name": "Tellurium CNY/Kg",
+            "category": "Industrial"
+        },
+        {
+            "name": "Iron Ore 62% fe USD/T",
+            "category": "Industrial"
+        },
+        {
+            "name": "Urea Ammonium EUR/MT",
+            "category": "Industrial"
+        },
+        {
+            "name": "Urea USD/T",
+            "category": "Industrial"
+        },
+        {
+            "name": "Di-ammonium USD/T",
+            "category": "Industrial"
+        },
+        {
+            "name": "Magnesium CNY/T",
+            "category": "Industrial"
+        },
+        {
+            "name": "Gallium CNY/Kg",
+            "category": "Industrial"
+        },
+        {
+            "name": "Germanium CNY/Kg",
+            "category": "Industrial"
+        },
+        {
+            "name": "Manganese CNY/mtu",
+            "category": "Industrial"
+        },
+        {
+            "name": "Indium CNY/Kg",
+            "category": "Industrial"
+        },
+        {
+            "name": "Kraft Pulp CNY/T",
+            "category": "Industrial"
+        }
+    ]
+}

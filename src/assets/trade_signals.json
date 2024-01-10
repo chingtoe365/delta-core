@@ -1,0 +1,24 @@
+{
+    "items": [
+        {
+            "name": "double_peg",
+            "description": "Swinging between two points for a while"
+        },
+        {
+            "name": "volatile_up_1_1",
+            "description": "Go up more than 1% in 1 minute"
+        },
+        {
+            "name": "volatile_up_1_5",
+            "description": "Go up more than 1% in 5 minutes"
+        },
+        {
+            "name": "volatile_down_1_1",
+            "description": "Go down more than 1% in 1 minute"
+        },
+        {
+            "name": "volatile_down_1_5",
+            "description": "Go down more than 1% in 5 minutes"
+        }
+    ]
+}

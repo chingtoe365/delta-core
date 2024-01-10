@@ -12,7 +12,7 @@ src/docs/*
 docker/database/*
 
 # local mqtt
-docker/mqtt/*
+docker/mqtt/data
 
 # local docker override
 docker/docker-compose.override.yaml

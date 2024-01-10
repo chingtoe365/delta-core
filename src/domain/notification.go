@@ -18,7 +18,7 @@ type Alert struct {
 	Time      time.Time
 }
 
-func (a *Alert) ParseIn(timePayload string, topic string) {
+func (a *Alert) ParseIn(shortDesc string, topic string) {
 	var topicSplits = strings.Split(topic, "/")
 	// time, err := time.Parse("%", timePayload)
 	// if err != nil {
@@ -27,7 +27,7 @@ func (a *Alert) ParseIn(timePayload string, topic string) {
 	a.TradeItem = topicSplits[0]
 	a.Signal = Signal{
 		Short:       topicSplits[1],
-		Description: "",
+		Description: shortDesc,
 	}
 	a.Time = time.Now()
 }
