@@ -2,7 +2,10 @@ package controller
 
 import (
 	"delta-core/bootstrap"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"os"
 
 	"net/http"
 
@@ -122,4 +125,48 @@ func (u *TaskController) Cancel(c *gin.Context) {
 	c.JSON(http.StatusOK, domain.SuccessResponse{
 		Message: "Unsubscribed successfully",
 	})
+}
+
+// PingExample godoc
+// @Summary Fetch all available trade items
+// @Schemes
+// @Description Fetch trade items
+// @Tags Task
+// @Security ApiKeyAuth
+// @Accept json
+// @Produce json
+// @Success 200
+// @Router /get-all-trade-items [get]
+func (u *TaskController) GetAllTradeItems(c *gin.Context) {
+	// userID := c.GetString("x-user-id")
+	jsonFile, err := os.Open("assets/trade_items.json")
+	if err != nil {
+		fmt.Print(err)
+	}
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	var tradeItems domain.TradeItems
+	json.Unmarshal(byteValue, &tradeItems)
+	c.JSON(http.StatusOK, tradeItems)
+}
+
+// PingExample godoc
+// @Summary Fetch all available trade signals
+// @Schemes
+// @Description Fetch trade signals
+// @Tags Task
+// @Security ApiKeyAuth
+// @Accept json
+// @Produce json
+// @Success 200
+// @Router /get-all-trade-signals [get]
+func (u *TaskController) GetAllTradeSignals(c *gin.Context) {
+	// userID := c.GetString("x-user-id")
+	jsonFile, err := os.Open("assets/trade_signals.json")
+	if err != nil {
+		fmt.Print(err)
+	}
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	var tradeSignals domain.TradeSignals
+	json.Unmarshal(byteValue, &tradeSignals)
+	c.JSON(http.StatusOK, tradeSignals)
 }
