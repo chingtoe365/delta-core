@@ -1,11 +1,9 @@
 package controller
 
 import (
-	"crypto/rand"
 	"delta-core/bootstrap"
 	"delta-core/domain"
 	"delta-core/internal/mqttutil"
-	"encoding/hex"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
@@ -13,14 +11,6 @@ import (
 
 type TestController struct {
 	Env *bootstrap.Env
-}
-
-func randomHex(n int) (string, error) {
-	bytes := make([]byte, n)
-	if _, err := rand.Read(bytes); err != nil {
-		return "", err
-	}
-	return hex.EncodeToString(bytes), nil
 }
 
 // PingExample godoc
