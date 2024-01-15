@@ -27,7 +27,7 @@ func (ssu *SingalSubUsecase) Subscribe(env *bootstrap.Env, task domain.Task, pro
 	var client = mqttutil.NewMqttClient(env, profile)
 
 	// fmt.Printf(">> Task ID %s\n", task.ID.Hex())
-	_, ok := ssu.TaskMap.Status[task.ID.Hex()]
+	ok := ssu.TaskMap.TryFetch(task.ID.Hex())
 	if ok {
 		fmt.Printf(">> Already subscribed\n")
 		return
@@ -41,7 +41,7 @@ func (ssu *SingalSubUsecase) Subscribe(env *bootstrap.Env, task domain.Task, pro
 	ssu.TaskMap.Update(task.ID.Hex(), false)
 
 	for {
-		_, ok := ssu.TaskMap.Status[task.ID.Hex()]
+		ok := ssu.TaskMap.TryFetch(task.ID.Hex())
 		if !ok {
 			// in the case when taks id is removed from map
 			// which means unsubsribe
@@ -57,7 +57,7 @@ func (ssu *SingalSubUsecase) Subscribe(env *bootstrap.Env, task domain.Task, pro
 
 func (ssu *SingalSubUsecase) Unsubscribe(task *domain.Task) {
 	// remove task id in task map to kill goroutine
-	_, ok := ssu.TaskMap.Status[task.ID.Hex()]
+	ok := ssu.TaskMap.TryFetch(task.ID.Hex())
 	if !ok {
 		fmt.Printf("Have already unsubscribed\n")
 		return
