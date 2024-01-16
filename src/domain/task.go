@@ -50,6 +50,19 @@ func (stm *SafeTaskMap) Update(taskId string, remove bool) {
 	}
 }
 
+func (stm *SafeTaskMap) TryFetch(taskId string) bool {
+	for {
+		select {
+		case <-stm.Unlocked:
+			_, ok := stm.Status[taskId]
+			go stm.Unlock()
+			return ok
+		default:
+			time.Sleep((50 * time.Millisecond))
+		}
+	}
+}
+
 type TaskRepository interface {
 	Create(c context.Context, task *Task) error
 	FetchById(c context.Context, taskId string) (Task, error)
