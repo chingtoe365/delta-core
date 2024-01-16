@@ -391,6 +391,390 @@
         {
             "name": "Kraft Pulp CNY/T",
             "category": "Industrial"
+        },
+        {
+            "name": "US500",
+            "category": "Stocks"
+        },
+        {
+            "name": "US30",
+            "category": "Stocks"
+        },
+        {
+            "name": "US100",
+            "category": "Stocks"
+        },
+        {
+            "name": "GB100",
+            "category": "Stocks"
+        },
+        {
+            "name": "DE40",
+            "category": "Stocks"
+        },
+        {
+            "name": "FR40",
+            "category": "Stocks"
+        },
+        {
+            "name": "IT40",
+            "category": "Stocks"
+        },
+        {
+            "name": "ES35",
+            "category": "Stocks"
+        },
+        {
+            "name": "MOEX",
+            "category": "Stocks"
+        },
+        {
+            "name": "NL25",
+            "category": "Stocks"
+        },
+        {
+            "name": "BIST 100",
+            "category": "Stocks"
+        },
+        {
+            "name": "CH20",
+            "category": "Stocks"
+        },
+        {
+            "name": "Stockholm",
+            "category": "Stocks"
+        },
+        {
+            "name": "WIG",
+            "category": "Stocks"
+        },
+        {
+            "name": "BE20",
+            "category": "Stocks"
+        },
+        {
+            "name": "Oslo",
+            "category": "Stocks"
+        },
+        {
+            "name": "ATX",
+            "category": "Stocks"
+        },
+        {
+            "name": "Copenhagen",
+            "category": "Stocks"
+        },
+        {
+            "name": "Helsinki",
+            "category": "Stocks"
+        },
+        {
+            "name": "Helsinki 25",
+            "category": "Stocks"
+        },
+        {
+            "name": "ISEQ",
+            "category": "Stocks"
+        },
+        {
+            "name": "Athens General",
+            "category": "Stocks"
+        },
+        {
+            "name": "PSI Geral",
+            "category": "Stocks"
+        },
+        {
+            "name": "PSI 20",
+            "category": "Stocks"
+        },
+        {
+            "name": "PX",
+            "category": "Stocks"
+        },
+        {
+            "name": "BET",
+            "category": "Stocks"
+        },
+        {
+            "name": "BUX",
+            "category": "Stocks"
+        },
+        {
+            "name": "PFTS",
+            "category": "Stocks"
+        },
+        {
+            "name": "SAX",
+            "category": "Stocks"
+        },
+        {
+            "name": "LuxX",
+            "category": "Stocks"
+        },
+        {
+            "name": "CROBEX",
+            "category": "Stocks"
+        },
+        {
+            "name": "SOFIX",
+            "category": "Stocks"
+        },
+        {
+            "name": "SBITOP",
+            "category": "Stocks"
+        },
+        {
+            "name": "Vilnius",
+            "category": "Stocks"
+        },
+        {
+            "name": "BELEX 15",
+            "category": "Stocks"
+        },
+        {
+            "name": "SASX-10",
+            "category": "Stocks"
+        },
+        {
+            "name": "Tallinn",
+            "category": "Stocks"
+        },
+        {
+            "name": "EU350",
+            "category": "Stocks"
+        },
+        {
+            "name": "CSE General",
+            "category": "Stocks"
+        },
+        {
+            "name": "EU50",
+            "category": "Stocks"
+        },
+        {
+            "name": "EU100",
+            "category": "Stocks"
+        },
+        {
+            "name": "MBI 10",
+            "category": "Stocks"
+        },
+        {
+            "name": "MSE",
+            "category": "Stocks"
+        },
+        {
+            "name": "ICEX",
+            "category": "Stocks"
+        },
+        {
+            "name": "Riga",
+            "category": "Stocks"
+        },
+        {
+            "name": "Monex",
+            "category": "Stocks"
+        },
+        {
+            "name": "Euro Stoxx Banks",
+            "category": "Stocks"
+        },
+        {
+            "name": "EU600",
+            "category": "Stocks"
+        },
+        {
+            "name": "Ecuador General",
+            "category": "Stocks"
+        },
+        {
+            "name": "CATSX",
+            "category": "Stocks"
+        },
+        {
+            "name": "IBOVESPA",
+            "category": "Stocks"
+        },
+        {
+            "name": "IPC Mexico",
+            "category": "Stocks"
+        },
+        {
+            "name": "Peru General",
+            "category": "Stocks"
+        },
+        {
+            "name": "Merval",
+            "category": "Stocks"
+        },
+        {
+            "name": "IBC",
+            "category": "Stocks"
+        },
+        {
+            "name": "COLCAP",
+            "category": "Stocks"
+        },
+        {
+            "name": "IGPA",
+            "category": "Stocks"
+        },
+        {
+            "name": "BVPSI",
+            "category": "Stocks"
+        },
+        {
+            "name": "BSX",
+            "category": "Stocks"
+        },
+        {
+            "name": "JSE",
+            "category": "Stocks"
+        },
+        {
+            "name": "JP225",
+            "category": "Stocks"
+        },
+        {
+            "name": "SHANGHAI",
+            "category": "Stocks"
+        },
+        {
+            "name": "CSI 300",
+            "category": "Stocks"
+        },
+        {
+            "name": "SHANGHAI 50",
+            "category": "Stocks"
+        },
+        {
+            "name": "CH50",
+            "category": "Stocks"
+        },
+        {
+            "name": "SENSEX",
+            "category": "Stocks"
+        },
+        {
+            "name": "DSE Board",
+            "category": "Stocks"
+        },
+        {
+            "name": "JCI",
+            "category": "Stocks"
+        },
+        {
+            "name": "TASI",
+            "category": "Stocks"
+        },
+        {
+            "name": "TAIEX",
+            "category": "Stocks"
+        },
+        {
+            "name": "ADX General",
+            "category": "Stocks"
+        },
+        {
+            "name": "SET 50",
+            "category": "Stocks"
+        },
+        {
+            "name": "FKLCI",
+            "category": "Stocks"
+        },
+        {
+            "name": "STI",
+            "category": "Stocks"
+        },
+        {
+            "name": "HK50",
+            "category": "Stocks"
+        },
+        {
+            "name": "PSEi",
+            "category": "Stocks"
+        },
+        {
+            "name": "KSE 100",
+            "category": "Stocks"
+        },
+        {
+            "name": "KASE",
+            "category": "Stocks"
+        },
+        {
+            "name": "QE",
+            "category": "Stocks"
+        },
+        {
+            "name": "HNX",
+            "category": "Stocks"
+        },
+        {
+            "name": "VN",
+            "category": "Stocks"
+        },
+        {
+            "name": "MSM 30",
+            "category": "Stocks"
+        },
+        {
+            "name": "ASPI",
+            "category": "Stocks"
+        },
+        {
+            "name": "Blom",
+            "category": "Stocks"
+        },
+        {
+            "name": "ASE",
+            "category": "Stocks"
+        },
+        {
+            "name": "LSX Composite",
+            "category": "Stocks"
+        },
+        {
+            "name": "MSE 20",
+            "category": "Stocks"
+        },
+        {
+            "name": "DFM General",
+            "category": "Stocks"
+        },
+        {
+            "name": "Kuwait All Share",
+            "category": "Stocks"
+        },
+        {
+            "name": "JPVIX",
+            "category": "Stocks"
+        },
+        {
+            "name": "NIFTY 50",
+            "category": "Stocks"
+        },
+        {
+            "name": "Estirad",
+            "category": "Stocks"
+        },
+        {
+            "name": "AUALL",
+            "category": "Stocks"
+        },
+        {
+            "name": "AU200",
+            "category": "Stocks"
+        },
+        {
+            "name": "AU50",
+            "category": "Stocks"
+        },
+        {
+            "name": "NZX 50",
+            "category": "Stocks"
         }
     ]
 }
