@@ -19,6 +19,7 @@ func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gi
 		NewLoginRouter(env, timeout, db, publicRouter)
 		NewRefreshTokenRouter(env, timeout, db, publicRouter)
 		NewTestRouter(env, timeout, db, publicRouter)
+		NewMarketRouter(env, timeout, db, publicRouter)
 
 		protectedRouter := generalRouter.Group("")
 		// Middleware to verify AccessToken
