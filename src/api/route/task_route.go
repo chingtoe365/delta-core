@@ -39,8 +39,6 @@ func NewTaskRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database,
 	tc.SignalSubUsecase.InitialiseSingalSubs(context.TODO(), env, puc, tasks)
 
 	group.GET("/task", tc.Fetch)
-	group.GET("/get-all-trade-items", tc.GetAllTradeItems)
-	group.GET("/get-all-trade-signals", tc.GetAllTradeSignals)
 	group.POST("/task", tc.Create)
 	group.DELETE("/task", tc.Cancel)
 }
