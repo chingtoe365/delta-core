@@ -97,23 +97,14 @@ func (qp *QuoteParams) formatSymbol() (datetime.Interval, datetime.Datetime, dat
 // @Success 200
 // @Router /get-quote [get]
 func (mc *MarketController) GetQuote(c *gin.Context) {
-	// q, err := quote.Get("AAPL")
-	// if err != nil {
-	// 	// Uh-oh.
-	// 	panic(err)
-	// }
 	var params = QuoteParams{}
+	var results []Quotes
 	if c.ShouldBindQuery(&params) == nil {
-		log.Println(params.Symbol)
-		log.Println(params.Interval)
-		log.Println(params.Start)
-		log.Println(params.End)
+		log.Println(params)
+		log.Println("Error in parsing query parameters")
+		c.JSON(http.StatusBadRequest, results)
 	}
 	interval, start, end := params.formatSymbol()
-	log.Println(interval)
-	log.Println(start)
-	log.Println(end)
-	log.Println(params.Symbol)
 	quoteParams := &chart.Params{
 		Symbol: params.Symbol, //"GBPUSD=X",
 		Start:  &start,        //  &datetime.Datetime{
@@ -129,7 +120,6 @@ func (mc *MarketController) GetQuote(c *gin.Context) {
 		Interval: interval, // datetime.OneHour
 	}
 	iter := chart.Get(quoteParams)
-	var results []Quotes
 	for iter.Next() {
 		point := iter.Bar()
 		q := Quotes{
