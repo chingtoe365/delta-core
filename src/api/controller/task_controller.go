@@ -186,35 +186,3 @@ func (u *TaskController) Cancel(c *gin.Context) {
 		Message: "Unsubscribed successfully",
 	})
 }
-
-// PingExample godoc
-// @Summary Fetch all available trade items
-// @Schemes
-// @Description Fetch trade items
-// @Tags Task
-// @Security ApiKeyAuth
-// @Accept json
-// @Produce json
-// @Success 200
-// @Router /get-all-trade-items [get]
-func (u *TaskController) GetAllTradeItems(c *gin.Context) {
-	// userID := c.GetString("x-user-id")
-	tradeItems := internal.ReadTradeItemsFromJsonFile()
-	c.JSON(http.StatusOK, tradeItems)
-}
-
-// PingExample godoc
-// @Summary Fetch all available trade signals
-// @Schemes
-// @Description Fetch trade signals
-// @Tags Task
-// @Security ApiKeyAuth
-// @Accept json
-// @Produce json
-// @Success 200
-// @Router /get-all-trade-signals [get]
-func (u *TaskController) GetAllTradeSignals(c *gin.Context) {
-	// userID := c.GetString("x-user-id")
-	tradeSignals := internal.ReadTradeSignalsFromJsonFile()
-	c.JSON(http.StatusOK, tradeSignals)
-}
