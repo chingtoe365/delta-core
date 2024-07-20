@@ -1,0 +1,20 @@
+FROM golang:1.19 as run
+
+# RUN mkdir /app-build
+# COPY ./src/go.mod /app-build/ 
+# COPY ./src/go.sum /app-build/ 
+# WORKDIR /app-build
+RUN mkdir /app
+COPY ./src /app
+WORKDIR /app
+
+# ENV BIN_APP_PORT=8080
+RUN go mod download
+RUN go get github.com/codegangsta/gin
+RUN go install github.com/codegangsta/gin
+RUN go install github.com/swaggo/swag/cmd/swag@latest
+ENV PATH=$GOPATH:$PATH
+RUN swag init
+ARG ENV_FILE=${ENV_FILE}
+COPY $ENV_FILE /envs/.env
+ENTRYPOINT ["gin","run","main.go"]
