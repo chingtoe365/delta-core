@@ -1,20 +1,28 @@
 FROM golang:1.19 as run
 
+# pre-download packages so only if mod file changes will it skip using cache
+RUN mkdir /app-build
+COPY ./src/go.mod /app-build/ 
+COPY ./src/go.sum /app-build/ 
+WORKDIR /app-build
+RUN go mod download
+RUN go get github.com/codegangsta/gin
+RUN go install github.com/codegangsta/gin
+# RUN go install github.com/swaggo/swag/cmd/swag@latest
+
 # RUN mkdir /app-build
 # COPY ./src/go.mod /app-build/ 
 # COPY ./src/go.sum /app-build/ 
 # WORKDIR /app-build
-RUN mkdir /app
+# RUN mkdir /app
 COPY ./src /app
 WORKDIR /app
-
-# ENV BIN_APP_PORT=8080
-RUN go mod download
-RUN go get github.com/codegangsta/gin
-RUN go install github.com/codegangsta/gin
-RUN go install github.com/swaggo/swag/cmd/swag@latest
-ENV PATH=$GOPATH:$PATH
-RUN swag init
+# RUN swag init
 ARG ENV_FILE=${ENV_FILE}
 COPY $ENV_FILE /envs/.env
-ENTRYPOINT ["gin","run","main.go"]
+
+COPY ./docker/scripts/start.sh /start.sh
+RUN chmod +x /start.sh
+
+ENV PATH=$GOPATH:$PATH
+# ENTRYPOINT ["gin","run","main.go"]

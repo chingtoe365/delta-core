@@ -58,11 +58,11 @@ services:
     command: /start.sh
     depends_on:
       - mongodb
-    healthcheck:
-      test: [ "CMD", "netstat", "|", "grep", "ESTABLISHED" ]
-      interval: 30s
-      timeout: 40s
-      retries: 5
+    # healthcheck:
+    #   test: [ "CMD", "netstat", "|", "grep", "ESTABLISHED" ]
+    #   interval: 30s
+    #   timeout: 40s
+    #   retries: 5
 
   mongo_express:
     <<: *default-service
@@ -78,9 +78,9 @@ services:
       - mongodb
     ports:
       - "8081:8081"
-    depends_on:
-      web:
-        condition: service_healthy
+    # depends_on:
+    #   web:
+    #     condition: service_healthy
 
 networks:
   delta-core-net:
