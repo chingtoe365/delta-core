@@ -73,12 +73,10 @@ func (mc *MarketController) GetQuote(c *gin.Context) {
 // @Success 200
 // @Router /get-series [get]
 func (mc *MarketController) GetSeries(c *gin.Context) {
-	var params = PriceParams{}
-	var results []Price
-	if c.ShouldBindQuery(&params) == nil {
-		log.Println(params)
-		log.Println("Error in parsing query parameters")
-		c.JSON(http.StatusBadRequest, results)
+	var params = PriceParams{
+		Key:   c.Query("key"),
+		Start: c.Query("start"),
+		End:   c.Query("end"),
 	}
 	tstart, err := time.Parse(time.RFC3339, params.Start)
 	if err != nil {
@@ -88,40 +86,9 @@ func (mc *MarketController) GetSeries(c *gin.Context) {
 	if err != nil {
 		panic(err)
 	}
-	series := mc.MarketRepository.FetchSeries(params.Key, tstart, tend)
-	// interval, start, end := params.formatSymbol()
-	// quoteParams := &chart.Params{
-	// 	Symbol: params.Symbol, //"GBPUSD=X",
-	// 	Start:  &start,        //  &datetime.Datetime{
-	// 	// 	Day:   25,
-	// 	// 	Month: 1,
-	// 	// 	Year:  2024,
-	// 	// },
-	// 	End: &end, // &datetime.Datetime{
-	// 	// 	Day:   27,
-	// 	// 	Month: 1,
-	// 	// 	Year:  2024,
-	// 	// },
-	// 	Interval: interval, // datetime.OneHour
-	// }
-	// iter := chart.Get(quoteParams)
-	// for iter.Next() {
-	// 	point := iter.Bar()
-	// 	q := Quotes{
-	// 		Open:      point.Open,
-	// 		Close:     point.Close,
-	// 		High:      point.High,
-	// 		Low:       point.Low,
-	// 		AdjClose:  point.AdjClose,
-	// 		Volume:    point.Volume,
-	// 		Timestamp: point.Timestamp,
-	// 	}
-	// 	// fmt.Println()
-	// 	results = append(results, q)
-	// }
+	series := mc.MarketRepository.FetchSeries(c, params.Key, tstart, tend)
+	log.Println(series)
 	c.JSON(http.StatusOK, series)
-	// Success!
-	// fmt.Println(q)
 }
 
 // PingExample godoc
