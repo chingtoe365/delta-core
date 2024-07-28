@@ -31,6 +31,17 @@ func ReadTradeSignalsFromJsonFile() domain.TradeSignals {
 	return tradeSignals
 }
 
+func ReadTradeSignalCategoriesFromJsonFile() domain.TradeSignalCategories {
+	jsonFile, err := os.Open("assets/trade_signal_categories.json")
+	if err != nil {
+		fmt.Print(err)
+	}
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	var tradeSignalCategories domain.TradeSignalCategories
+	json.Unmarshal(byteValue, &tradeSignalCategories)
+	return tradeSignalCategories
+}
+
 func GetAllTradeItems() []domain.TradeItem {
 	tradeItems := ReadTradeItemsFromJsonFile()
 	return tradeItems.Items
