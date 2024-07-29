@@ -102,6 +102,7 @@ func (mc *MarketController) GetSeries(c *gin.Context) {
 // @Schemes
 // @Description List customized market signals
 // @Tags Market
+// @Security ApiKeyAuth
 // @Accept json
 // @Produce json
 // @Success 200
@@ -123,6 +124,7 @@ func (mc *MarketController) ListSubscribedTradeSignals(c *gin.Context) {
 // @Schemes
 // @Description Customize market signals for email/msg reminder
 // @Tags Market
+// @Security ApiKeyAuth
 // @Param config body domain.MarketSignalMeta true "Signal setup request".
 // @Accept json
 // @Produce json
@@ -174,6 +176,7 @@ func (mc *MarketController) SetupTradeSignals(c *gin.Context) {
 // @Schemes
 // @Description Remove customized market signals
 // @Tags Market
+// @Security ApiKeyAuth
 // @Param signalId query string true "ID of signal to be deleted".
 // @Accept json
 // @Produce json
@@ -182,6 +185,7 @@ func (mc *MarketController) SetupTradeSignals(c *gin.Context) {
 func (mc *MarketController) DeleteTradeSignals(c *gin.Context) {
 	signalId := c.Query("signalId")
 	marketSignal, err := mc.MarketRepository.FetchSignalerById(c, signalId)
+	log.Print(marketSignal)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 	}
