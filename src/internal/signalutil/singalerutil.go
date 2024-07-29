@@ -81,13 +81,13 @@ func (cs *ChangeSignaler) Roll(signalId primitive.ObjectID) {
 			if cs.Config.isUp {
 				if (last.Value-first.Value)/first.Value-float64(cs.Config.percentage) > 0 {
 					// up signal detected, do something
-					cs.Notify(fmt.Sprintf("Go up more than %v % \\within %s seconds", cs.Config.percentage*100, cs.Config.duration))
+					cs.Notify(fmt.Sprintf("Go up more than %v%% within %v seconds", cs.Config.percentage*100, cs.Config.duration))
 				}
 			}
 			if !cs.Config.isUp {
 				if (last.Value-first.Value)/first.Value+float64(cs.Config.percentage) < 0 {
 					// down signal detected, do something
-					cs.Notify(fmt.Sprintf("Go down more than %v % \\within %s seconds", cs.Config.percentage*100, cs.Config.duration))
+					cs.Notify(fmt.Sprintf("Go down more than %v%% within %v seconds", cs.Config.percentage*100, cs.Config.duration))
 				}
 			}
 
