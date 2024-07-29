@@ -23,9 +23,10 @@ func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gi
 
 		protectedRouter := generalRouter.Group("")
 		// Middleware to verify AccessToken
-		protectedRouter.Use(middleware.JwtAuthMiddleware(env.AccessTokenSecret))
+		protectedRouter.Use(middleware.JwtAuthMiddleware(env))
 		// All Private APIs
 		NewProfileRouter(env, timeout, db, protectedRouter)
 		NewTaskRouter(env, timeout, db, protectedRouter)
+		NewSignalRouter(env, timeout, db, protectedRouter)
 	}
 }
