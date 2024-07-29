@@ -23,7 +23,7 @@ func NewTaskRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database,
 
 	tc := &controller.TaskController{
 		TaskUsecase:      usecase.NewTaskUsecase(tr, timeout),
-		SignalSubUsecase: usecase.NewSingalSubUsecase(tr, timeout),
+		SignalSubUsecase: usecase.NewSignalSubUsecase(tr, timeout),
 		ProfileUsecase:   usecase.NewProfileUsecase(pr, timeout),
 	}
 	var taskCollection = db.Collection(domain.CollectionTask)

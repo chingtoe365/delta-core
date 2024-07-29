@@ -9,20 +9,20 @@ import (
 	"time"
 )
 
-type SingalSubUsecase struct {
+type SignalSubUsecase struct {
 	// TaskMap chan map[string]bool
 	TaskMap domain.SafeTaskMap
 }
 
-func NewSingalSubUsecase(taskRepository domain.TaskRepository, timeout time.Duration) domain.SignalSubUsecase {
-	return &SingalSubUsecase{
+func NewSignalSubUsecase(taskRepository domain.TaskRepository, timeout time.Duration) *SignalSubUsecase {
+	return &SignalSubUsecase{
 		TaskMap: domain.SafeTaskMap{
 			Status: make(map[string]bool), Unlocked: make(chan int),
 		},
 	}
 }
 
-func (ssu *SingalSubUsecase) Subscribe(env *bootstrap.Env, task domain.Task, profile *domain.Profile) {
+func (ssu *SignalSubUsecase) Subscribe(env *bootstrap.Env, task domain.Task, profile *domain.Profile) {
 	// create and connect clients
 	var client = mqttutil.NewMqttClient(env, profile)
 
@@ -55,7 +55,7 @@ func (ssu *SingalSubUsecase) Subscribe(env *bootstrap.Env, task domain.Task, pro
 	}
 }
 
-func (ssu *SingalSubUsecase) Unsubscribe(task *domain.Task) {
+func (ssu *SignalSubUsecase) Unsubscribe(task *domain.Task) {
 	// remove task id in task map to kill goroutine
 	ok := ssu.TaskMap.TryFetch(task.ID.Hex())
 	if !ok {
@@ -66,7 +66,7 @@ func (ssu *SingalSubUsecase) Unsubscribe(task *domain.Task) {
 }
 
 // called when task router start up
-func (ssu *SingalSubUsecase) InitialiseSingalSubs(ctx context.Context, env *bootstrap.Env, puc domain.ProfileUsecase, tasks []domain.Task) {
+func (ssu *SignalSubUsecase) InitialiseSingalSubs(ctx context.Context, env *bootstrap.Env, puc domain.ProfileUsecase, tasks []domain.Task) {
 	// unlock task map channel first
 	go ssu.TaskMap.Unlock()
 	for _, item := range tasks {
