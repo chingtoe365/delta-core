@@ -8,7 +8,7 @@ import (
 
 type Env struct {
 	AppEnv                 string `mapstructure:"APP_ENV"`
-	AnonUserId             string `mapstructure:"ANONYMOUS_USER_ID"`
+	AnonUserId             string `mapstructure:"MONGO_ANON_USER_ID"`
 	ServerAddress          string `mapstructure:"SERVER_ADDRESS"`
 	ContextTimeout         int    `mapstructure:"CONTEXT_TIMEOUT"`
 	BasePath               string `mapstructure:"BASE_PATH"`

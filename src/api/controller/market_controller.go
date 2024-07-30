@@ -109,7 +109,9 @@ func (mc *MarketController) GetSeries(c *gin.Context) {
 // @Router /list-signals [get]
 func (mc *MarketController) ListSubscribedTradeSignals(c *gin.Context) {
 	userID := c.GetString("x-user-id")
+	log.Println(userID)
 	signals, err := mc.MarketRepository.FetchByUserID(c, userID)
+	log.Println(signals)
 	// tasks, err := u.TaskUsecase.FetchByUserID(c, userID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
@@ -142,7 +144,9 @@ func (mc *MarketController) SetupTradeSignals(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 	}
+	log.Print(userID)
 	userProfile, err := mc.ProfileUsecase.GetProfileByID(c, userID)
+	log.Print(userProfile)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return

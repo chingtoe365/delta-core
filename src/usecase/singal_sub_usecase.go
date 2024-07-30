@@ -68,6 +68,7 @@ func (ssu *SignalSubUsecase) Unsubscribe(task *domain.Task) {
 // called when task router start up
 func (ssu *SignalSubUsecase) InitialiseSingalSubs(ctx context.Context, env *bootstrap.Env, puc domain.ProfileUsecase, tasks []domain.Task) {
 	// unlock task map channel first
+	fmt.Print("Unlocking task map first")
 	go ssu.TaskMap.Unlock()
 	for _, item := range tasks {
 		fmt.Printf("Starting task %s ID: %s\n", item.Title, item.ID.Hex())

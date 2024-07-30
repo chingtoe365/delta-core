@@ -35,7 +35,6 @@ func NewTaskRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database,
 	}
 
 	cursor.All(context.TODO(), &tasks)
-
 	tc.SignalSubUsecase.InitialiseSingalSubs(context.TODO(), env, puc, tasks)
 
 	group.GET("/task", tc.Fetch)

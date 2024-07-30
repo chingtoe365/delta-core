@@ -18,7 +18,7 @@ const (
 type MarketSignalMeta struct {
 	Key    string
 	Type   SignalType
-	Config map[string]string
+	Config map[string]interface{}
 }
 
 type IMarketSignaler interface {

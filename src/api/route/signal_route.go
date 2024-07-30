@@ -1,6 +1,8 @@
 package route
 
 import (
+	"context"
+	"fmt"
 	"time"
 
 	"delta-core/api/controller"
@@ -11,6 +13,7 @@ import (
 	"delta-core/usecase"
 
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func NewSignalRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database, group *gin.RouterGroup) {
@@ -21,6 +24,18 @@ func NewSignalRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Databas
 		ProfileUsecase:     usecase.NewProfileUsecase(pr, timeout),
 		Env:                env,
 	}
+	var signalCollection = db.Collection(domain.CollectionMarketSignal)
+	var signals []domain.MarketSignalDto
+
+	cursor, err := signalCollection.Find(context.TODO(), bson.M{})
+	if err != nil {
+		fmt.Printf("Cannot fetch all tasks, error %v", err)
+	}
+
+	cursor.All(context.TODO(), &signals)
+
+	fmt.Println("Initializing signals setup")
+	mc.SignalSetupUsecase.InitialiseSignalsSetup(context.TODO(), env, mc.ProfileUsecase, mc.MarketRepository, signals)
 
 	group.GET("/list-signals", mc.ListSubscribedTradeSignals)
 	group.POST("/setup-signal", mc.SetupTradeSignals)

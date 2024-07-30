@@ -38,7 +38,6 @@ func NewMongoDatabase(env *Env) mongo.Client {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	return client
 }
 

@@ -99,7 +99,7 @@ func (mr *MarketRepository) FetchByUserID(c context.Context, userID string) ([]d
 		return nil, err
 	}
 
-	cursor, err := collection.Find(c, bson.M{"userID": idHex})
+	cursor, err := collection.Find(c, bson.M{"userId": idHex})
 	if err != nil {
 		return nil, err
 	}
