@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"log/slog"
 	"time"
 
 	"delta-core/mongo"
@@ -51,5 +52,5 @@ func CloseMongoDBConnection(client mongo.Client) {
 		log.Fatal(err)
 	}
 
-	log.Println("Connection to MongoDB closed.")
+	slog.Info("Connection to MongoDB closed.")
 }

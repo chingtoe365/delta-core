@@ -37,7 +37,7 @@ func (stm *SafeTaskMap) Update(taskId string, remove bool) {
 			} else {
 				stm.Status[taskId] = true
 			}
-			// fmt.Printf(">> Task map table updated\n")
+			// log.Printf(">> Task map table updated\n")
 			// unlocking through here so it get locked
 			// when map is processing in this select case
 			go stm.Unlock()

@@ -5,6 +5,7 @@ import (
 	"delta-core/domain"
 	"delta-core/mongo"
 	"log"
+	"log/slog"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -46,9 +47,7 @@ func (mr *MarketRepository) FetchRawSeries(ctx context.Context, key string, star
 }
 
 func (mr *MarketRepository) FetchSeries(ctx context.Context, key string, start time.Time, end time.Time) []TsPoint {
-	log.Println(start.UnixMilli())
-	log.Println(end.UnixMilli())
-	log.Println(key)
+	slog.Info(key)
 	var result []TsPoint
 	// data, err := mr.redis.TSRange(ctx, key, int(start.UnixMilli()), int(end.UnixMilli())).Result()
 	// if err != nil {
@@ -56,7 +55,7 @@ func (mr *MarketRepository) FetchSeries(ctx context.Context, key string, start t
 	// 	panic(err)
 	// }
 	data := mr.FetchRawSeries(ctx, key, start, end)
-	// log.Println(data)
+	// slog.Info(data)
 	// return data
 	for x := range len(data) {
 		result = append(result, TsPoint{

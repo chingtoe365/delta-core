@@ -2,12 +2,14 @@ package bootstrap
 
 import (
 	"log"
+	"log/slog"
 
 	"github.com/spf13/viper"
 )
 
 type Env struct {
 	AppEnv                 string `mapstructure:"APP_ENV"`
+	LogVerbose             bool   `mapstructure:"LOG_VERBOSE"`
 	AnonUserId             string `mapstructure:"MONGO_ANON_USER_ID"`
 	ServerAddress          string `mapstructure:"SERVER_ADDRESS"`
 	ContextTimeout         int    `mapstructure:"CONTEXT_TIMEOUT"`
@@ -46,9 +48,9 @@ func NewEnv() *Env {
 	}
 
 	if env.AppEnv == "development" {
-		log.Println("The App is running in development env")
+		slog.Info("The App is running in development env")
 	}
 
-	// fmt.Println(env)
+	// slog.Info(env)
 	return &env
 }

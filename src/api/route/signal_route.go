@@ -2,7 +2,8 @@ package route
 
 import (
 	"context"
-	"fmt"
+	"log"
+	"log/slog"
 	"time"
 
 	"delta-core/api/controller"
@@ -29,12 +30,12 @@ func NewSignalRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Databas
 
 	cursor, err := signalCollection.Find(context.TODO(), bson.M{})
 	if err != nil {
-		fmt.Printf("Cannot fetch all tasks, error %v", err)
+		log.Printf("Cannot fetch all tasks, error %v", err)
 	}
 
 	cursor.All(context.TODO(), &signals)
 
-	fmt.Println("Initializing signals setup")
+	slog.Info("Initializing signals setup")
 	mc.SignalSetupUsecase.InitialiseSignalsSetup(context.TODO(), env, mc.ProfileUsecase, mc.MarketRepository, signals)
 
 	group.GET("/list-signals", mc.ListSubscribedTradeSignals)

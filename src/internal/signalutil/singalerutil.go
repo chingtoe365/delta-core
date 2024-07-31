@@ -77,29 +77,29 @@ func (cs *ChangeSignaler) Roll(signalId primitive.ObjectID) {
 		if len(tss) > 0 {
 			first := tss[0]
 			last := tss[len(tss)-1]
-			elapsed := float64(last.Timestamp-first.Timestamp) / 1000
-			log.Println(elapsed)
-			coverage := float64(elapsed) / float64(cs.Config.Duration)
-			if coverage > 0.7 {
-				if cs.Config.IsUp {
-					if (last.Value-first.Value)/first.Value-float64(cs.Config.Percentage) > 0 {
-						slog.Info("Up signal detected!!!!!!")
-						// up signal detected, do something
-						cs.Notify(fmt.Sprintf("Go up more than %v%% within %v seconds", cs.Config.Percentage*100, cs.Config.Duration))
-						// frozen for another period of time of same length to duration
-						time.Sleep(time.Duration(cs.Config.Duration) * time.Second)
-					}
-				}
-				if !cs.Config.IsUp {
-					if (last.Value-first.Value)/first.Value+float64(cs.Config.Percentage) < 0 {
-						slog.Info("Down signal detected!!!!!!")
-						// down signal detected, do something
-						cs.Notify(fmt.Sprintf("Go down more than %v%% within %v seconds", cs.Config.Percentage*100, cs.Config.Duration))
-						// frozen for another period of time of same length to duration
-						time.Sleep(time.Duration(cs.Config.Duration) * time.Second)
-					}
+			// elapsed := float64(last.Timestamp-first.Timestamp) / 1000
+			// log.Println(elapsed)
+			// coverage := float64(elapsed) / float64(cs.Config.Duration)
+			// if coverage > 0.7 {
+			if cs.Config.IsUp {
+				if (last.Value-first.Value)/first.Value-float64(cs.Config.Percentage) > 0 {
+					slog.Info("Up signal detected!!!!!!")
+					// up signal detected, do something
+					cs.Notify(fmt.Sprintf("Go up more than %v%% within %v seconds", cs.Config.Percentage*100, cs.Config.Duration))
+					// frozen for another period of time of same length to duration
+					time.Sleep(time.Duration(cs.Config.Duration) * time.Second)
 				}
 			}
+			if !cs.Config.IsUp {
+				if (last.Value-first.Value)/first.Value+float64(cs.Config.Percentage) < 0 {
+					slog.Info("Down signal detected!!!!!!")
+					// down signal detected, do something
+					cs.Notify(fmt.Sprintf("Go down more than %v%% within %v seconds", cs.Config.Percentage*100, cs.Config.Duration))
+					// frozen for another period of time of same length to duration
+					time.Sleep(time.Duration(cs.Config.Duration) * time.Second)
+				}
+			}
+			// }
 			// log.Print("ding.........")
 		}
 		// otherwise keep listening

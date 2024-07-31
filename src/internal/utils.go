@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"strings"
 )
@@ -12,7 +13,7 @@ import (
 func ReadTradeItemsFromJsonFile() domain.TradeItems {
 	jsonFile, err := os.Open("assets/trade_items.json")
 	if err != nil {
-		fmt.Print(err)
+		log.Print(err)
 	}
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 	var tradeItems domain.TradeItems
@@ -23,7 +24,7 @@ func ReadTradeItemsFromJsonFile() domain.TradeItems {
 func ReadTradeSignalsFromJsonFile() domain.TradeSignals {
 	jsonFile, err := os.Open("assets/trade_signals.json")
 	if err != nil {
-		fmt.Print(err)
+		log.Print(err)
 	}
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 	var tradeSignals domain.TradeSignals
@@ -34,7 +35,7 @@ func ReadTradeSignalsFromJsonFile() domain.TradeSignals {
 func ReadTradeSignalCategoriesFromJsonFile() domain.TradeSignalCategories {
 	jsonFile, err := os.Open("assets/trade_signal_categories.json")
 	if err != nil {
-		fmt.Print(err)
+		log.Print(err)
 	}
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 	var tradeSignalCategories domain.TradeSignalCategories

@@ -7,6 +7,7 @@ import (
 	"delta-core/repository"
 	"delta-core/usecase"
 	"log"
+	"log/slog"
 	"net/http"
 	"time"
 
@@ -62,7 +63,7 @@ type Price struct {
 // // @Success 200
 // // @Router /get-quote [get]
 // func (mc *MarketController) GetQuote(c *gin.Context) {
-// 	fmt.Print("sdf")
+// 	log.Print("sdf")
 // 	c.JSON(http.StatusOK, "HEllo WORLD")
 // }
 
@@ -93,7 +94,6 @@ func (mc *MarketController) GetSeries(c *gin.Context) {
 		panic(err)
 	}
 	series := mc.MarketRepository.FetchSeries(c, params.Key, tstart, tend)
-	log.Println(series)
 	c.JSON(http.StatusOK, series)
 }
 
@@ -109,9 +109,8 @@ func (mc *MarketController) GetSeries(c *gin.Context) {
 // @Router /list-signals [get]
 func (mc *MarketController) ListSubscribedTradeSignals(c *gin.Context) {
 	userID := c.GetString("x-user-id")
-	log.Println(userID)
+	slog.Info(userID)
 	signals, err := mc.MarketRepository.FetchByUserID(c, userID)
-	log.Println(signals)
 	// tasks, err := u.TaskUsecase.FetchByUserID(c, userID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})

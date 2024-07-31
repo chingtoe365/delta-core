@@ -6,8 +6,8 @@ import (
 	"delta-core/domain"
 	"delta-core/internal/signalutil"
 	"delta-core/repository"
-	"fmt"
 	"log"
+	"log/slog"
 
 	"github.com/mitchellh/mapstructure"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -28,7 +28,7 @@ func NewSignalSetupUsecase() *SignalSetupUsecase {
 
 func (ssu *SignalSetupUsecase) MakeMarketSignaler(signalId primitive.ObjectID, signalerKey string, signalerType string, singalerConfig map[string]interface{}, repository *repository.MarketRepository, context context.Context, env *bootstrap.Env, profile *domain.Profile) (domain.IMarketSignaler, error) {
 	var signaler domain.IMarketSignaler
-	fmt.Println(singalerConfig)
+	log.Println(singalerConfig)
 	switch signalerType {
 	case "change":
 		var signalChangeConfig signalutil.ChangeSignalConfig
@@ -41,12 +41,12 @@ func (ssu *SignalSetupUsecase) MakeMarketSignaler(signalId primitive.ObjectID, s
 		if err != nil {
 			panic(err)
 		}
-		log.Println("Before decoding")
+		slog.Warn("Before decoding")
+		slog.Info("Before decoding ***")
 		err = decoder.Decode(singalerConfig)
 		if err != nil {
 			println(err)
-			log.Println("error happen when mapping")
-			log.Fatal("Cannot convert map to struct")
+			slog.Error("Cannot convert map to struct")
 		}
 		log.Println(signalChangeConfig)
 
@@ -54,7 +54,7 @@ func (ssu *SignalSetupUsecase) MakeMarketSignaler(signalId primitive.ObjectID, s
 	default:
 		signaler = &signalutil.ChangeSignaler{}
 	}
-	fmt.Println(signaler)
+	log.Print(signaler)
 	return signaler, nil
 }
 
@@ -63,7 +63,7 @@ func (ssu *SignalSetupUsecase) RemoveMarketSignaler(signalId string) {
 	ok := ssu.TaskMap.TryFetch(signalId)
 	log.Print(ok)
 	if !ok {
-		fmt.Printf("Signal deleted \n")
+		log.Printf("Signal deleted \n")
 		return
 	}
 	ssu.TaskMap.Update(signalId, true)
@@ -73,13 +73,13 @@ func (ssu *SignalSetupUsecase) InitialiseSignalsSetup(ctx context.Context, env *
 	// unlock task map channel first
 	go ssu.TaskMap.Unlock()
 	for _, item := range signals {
-		fmt.Printf("Starting signal %s ID: %s\n", item.Id, item.Id.Hex())
-		// fmt.Println(item.UserID.Hex())
+		log.Printf("Starting signal %s ID: %s\n", item.Id, item.Id.Hex())
+		// slog.Info(item.UserID.Hex())
 		profile, err := puc.GetProfileByID(ctx, item.UserId.Hex())
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println("Before making signals")
+		slog.Info("Before making signals")
 		signaler, err := ssu.MakeMarketSignaler(
 			item.Id, item.SignalMeta.Key, string(item.SignalMeta.Type), item.SignalMeta.Config, repository, ctx, env, profile)
 		if err != nil {

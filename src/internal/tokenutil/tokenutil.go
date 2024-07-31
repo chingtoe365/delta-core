@@ -1,10 +1,9 @@
 package tokenutil
 
 import (
+	"delta-core/domain"
 	"fmt"
 	"time"
-
-	"delta-core/domain"
 
 	jwt "github.com/golang-jwt/jwt/v4"
 )

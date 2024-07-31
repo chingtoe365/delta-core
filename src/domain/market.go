@@ -28,7 +28,7 @@ type IMarketSignaler interface {
 }
 
 type MarketSignalDto struct {
-	Id         primitive.ObjectID `bson:"_id" json:"-"`
-	UserId     primitive.ObjectID `bson:"userId" json:"-"`
+	Id         primitive.ObjectID `bson:"_id" json:"id"`
+	UserId     primitive.ObjectID `bson:"userId" json:"userId"`
 	SignalMeta MarketSignalMeta
 }
