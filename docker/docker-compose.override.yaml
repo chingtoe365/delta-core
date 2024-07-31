@@ -21,6 +21,11 @@ services:
 
   mongodb:
     env_file: .env.local
+    volumes:
+      - ./database/data:/data/db
+      - ./database/dev.archive:/Databases/dev.archive
+      - ./database/production:/Databases/production
+      - ./mongo/init:/docker-entrypoint-initdb.d:ro
 
   mongo_express:
     env_file: .env.local
@@ -43,8 +48,13 @@ services:
     image: redis/redis-stack:latest
     ports:
     - 6379:6379
+    # command: redis-server /etc/redis.conf --appendonly yes --save 2592000 1
+    # command: sysctl -w vm.overcommit_memory=1 && redis-server /etc/redis.conf --save 2592000 1 --loglevel warning
     networks:
       - delta-core-net
+    volumes:
+      - ./redis/data:/data:w
+      - ./redis/redis.conf:/etc/redis.conf:ro
 
   redisinsight:
     image: redis/redisinsight:latest
