@@ -2,13 +2,12 @@ package controller
 
 import (
 	"delta-core/bootstrap"
+	"delta-core/domain"
 	"delta-core/internal"
 	"fmt"
-	"strings"
-
+	"log"
 	"net/http"
-
-	"delta-core/domain"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -37,7 +36,6 @@ type TaskController struct {
 func (tc *TaskController) Create(c *gin.Context) {
 	env, ok := c.MustGet("env").(*bootstrap.Env)
 	if !ok {
-		fmt.Println(ok)
 		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: "Environment injection failed"})
 		return
 	}
@@ -173,7 +171,7 @@ func (u *TaskController) Cancel(c *gin.Context) {
 	tasksOut := internal.FilterTasks(tradeItem, tradeItemCategory, tradeSignal, tasks)
 
 	for _, task := range tasksOut {
-		fmt.Printf(">> going to unsubsribe task ID: %s Title: %s", task.ID.Hex(), task.Title)
+		log.Printf(">> going to unsubsribe task ID: %s Title: %s", task.ID.Hex(), task.Title)
 		u.SignalSubUsecase.Unsubscribe(&task)
 		err = u.TaskUsecase.Delete(c, &task)
 		if err != nil {

@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"fmt"
+	"log/slog"
 	"net/http"
 
 	"golang.org/x/crypto/bcrypt"
@@ -28,7 +28,7 @@ type LoginController struct {
 // @Success 200
 // @Router /login [post]
 func (lc *LoginController) Login(c *gin.Context) {
-	fmt.Println(">> Login request comes in")
+	slog.Info(">> Login request comes in")
 	var request domain.LoginRequest
 
 	err := c.ShouldBind(&request)
