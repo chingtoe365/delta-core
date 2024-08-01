@@ -4,6 +4,7 @@ import (
 	"delta-core/bootstrap"
 	"delta-core/domain"
 	"delta-core/internal"
+	"delta-core/internal/symbolutil"
 	"delta-core/repository"
 	"delta-core/usecase"
 	"log"
@@ -12,6 +13,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/piquette/finance-go/chart"
 	"github.com/shopspring/decimal"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -23,12 +25,6 @@ type MarketController struct {
 	Env                *bootstrap.Env
 }
 
-type QuoteParams struct {
-	Symbol   string `form:"symbol" binding:"required"`
-	Interval int    `form:"interval" default:"60"`
-	Start    string `form:"start" default:"2023-01-02T15:04:05Z"`
-	End      string `form:"end" default:"2023-01-03T15:04:05Z"`
-}
 type PriceParams struct {
 	Key   string `form:"key" binding:"required"`
 	Start string `form:"start" default:"2024-07-21T20:00:00Z"`
@@ -49,23 +45,53 @@ type Price struct {
 	Value decimal.Decimal
 }
 
-// // GetQuote godoc
-// // @Summary get quote
-// // @Schemes
-// // @Description get quote
-// // @Tags Market
-// // @Param symbol query string true "Symbol"
-// // @Param interval query string false "Interval"
-// // @Param start query string false "Start time"
-// // @Param end query string false "End time"
-// // @Accept json
-// // @Produce json
-// // @Success 200
-// // @Router /get-quote [get]
-// func (mc *MarketController) GetQuote(c *gin.Context) {
-// 	log.Print("sdf")
-// 	c.JSON(http.StatusOK, "HEllo WORLD")
-// }
+// GetQuote godoc
+// @Summary get quote
+// @Schemes
+// @Description get quote
+// @Tags Market
+// @Param symbol query string true "Symbol"
+// @Param interval query string false "Interval"
+// @Param start query string false "Start time"
+// @Param end query string false "End time"
+// @Accept json
+// @Produce json
+// @Success 200
+// @Router /get-historic-series [get]
+func (mc *MarketController) GetHistorcSeries(c *gin.Context) {
+	var params symbolutil.QuoteParams
+	err := c.ShouldBindQuery(&params)
+	if err != nil {
+		slog.Error("Failed binding parsed params")
+		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+	var results []Quotes
+	interval, start, end := params.FormatSymbol()
+	quoteParams := &chart.Params{
+		Symbol: params.Symbol, //"GBPUSD=X",
+		// Symbol: "GBPUSD=X",
+		Start:    &start,
+		End:      &end,
+		Interval: interval,
+	}
+	iter := chart.Get(quoteParams)
+	for iter.Next() {
+		point := iter.Bar()
+		// log.Println(point)
+		q := Quotes{
+			Open:      point.Open,
+			Close:     point.Close,
+			High:      point.High,
+			Low:       point.Low,
+			AdjClose:  point.AdjClose,
+			Volume:    point.Volume,
+			Timestamp: point.Timestamp,
+		}
+		results = append(results, q)
+	}
+	c.JSON(http.StatusOK, results)
+}
 
 // GetQuote godoc
 // @Summary get series

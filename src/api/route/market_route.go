@@ -26,9 +26,9 @@ func NewMarketRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Databas
 	group.GET("/get-all-trade-signals", mc.GetAllTradeSignals)
 	group.GET("/get-all-trade-signal-categories", mc.GetAllTradeSignalCategories)
 	group.GET("/get-series", mc.GetSeries)
+	group.GET("/get-historic-series", mc.GetHistorcSeries)
 	// group.GET("/list-signals", mc.ListSubscribedTradeSignals)
 	// group.POST("/setup-signal", mc.SetupTradeSignals)
 	// group.DELETE("/delete-signal", mc.DeleteTradeSignals)
-	// // group.GET("/get-quote", mc.GetQuote)
 
 }
