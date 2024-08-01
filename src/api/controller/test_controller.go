@@ -4,7 +4,7 @@ import (
 	"delta-core/bootstrap"
 	"delta-core/domain"
 	"delta-core/internal/mqttutil"
-	"fmt"
+	"log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -35,7 +35,7 @@ func (tc *TestController) Test(c *gin.Context) {
 	}
 	msg := c.Query("msg")
 	topic := c.Query("topic")
-	fmt.Printf(">> Publishing to topic: %s\n", topic)
+	log.Printf(">> Publishing to topic: %s\n", topic)
 	token := client.Publish(topic, 2, false, msg)
 	token.Wait()
 	client.Disconnect(250)

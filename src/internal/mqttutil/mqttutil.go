@@ -7,6 +7,8 @@ import (
 	"delta-core/internal/notificationutil"
 	"encoding/hex"
 	"fmt"
+	"log"
+	"log/slog"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
@@ -15,7 +17,7 @@ func messageHandlerWrapper(env *bootstrap.Env, p *domain.Profile) func(client mq
 	// return message handler
 	return func(client mqtt.Client, msg mqtt.Message) {
 		var options = client.OptionsReader()
-		fmt.Printf("ClientId: %s, Received message: %s, from topic: %s\n", options.ClientID(), msg.Payload(), msg.Topic())
+		log.Printf("ClientId: %s, Received message: %s, from topic: %s\n", options.ClientID(), msg.Payload(), msg.Topic())
 		var a domain.Alert
 		a.ParseIn(string(msg.Payload()), msg.Topic())
 		notificationutil.SendMail(env, p.Email, a.FormatEmail())
@@ -23,11 +25,11 @@ func messageHandlerWrapper(env *bootstrap.Env, p *domain.Profile) func(client mq
 }
 
 var connectHandler mqtt.OnConnectHandler = func(client mqtt.Client) {
-	fmt.Println("Connected to mosquitto")
+	slog.Info("Connected to mosquitto")
 }
 
 var connectLostHandler mqtt.ConnectionLostHandler = func(client mqtt.Client, err error) {
-	fmt.Printf("Connect lost: %v", err)
+	log.Printf("Connect lost: %v", err)
 }
 
 func randomHex(n int) (string, error) {

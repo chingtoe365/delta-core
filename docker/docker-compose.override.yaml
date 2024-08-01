@@ -2,17 +2,30 @@ version: "3.8"
 
 services:
   web:
+    image: delta-core:dev
     build:
       context: ../
-      dockerfile: ./docker/Dockerfile
+      dockerfile: ./docker/Dockerfile.dev
       args:
         - ENV_FILE=./docker/.env.local
     env_file: .env.local
-    # volumes:
-    #   - ../src:/app
+    # entrypoint: gin run main.go
     # command: sleep 5000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../src:/app
+    # command: sleep 5000
+    networks:
+      - delta-core-net
+
   mongodb:
     env_file: .env.local
+    volumes:
+      - ./database/data:/data/db
+      - ./database/dev.archive:/Databases/dev.archive
+      - ./database/production:/Databases/production
+      - ./mongo/init:/docker-entrypoint-initdb.d:ro
 
   mongo_express:
     env_file: .env.local
@@ -30,6 +43,28 @@ services:
       - 9001:9001
     networks:
       - delta-core-net
+  
+  redis:
+    image: redis/redis-stack:latest
+    ports:
+    - 6379:6379
+    # command: redis-server /etc/redis.conf --appendonly yes --save 2592000 1
+    # command: sysctl -w vm.overcommit_memory=1 && redis-server /etc/redis.conf --save 2592000 1 --loglevel warning
+    networks:
+      - delta-core-net
+    volumes:
+      - ./redis/data:/data:w
+      - ./redis/redis.conf:/etc/redis.conf:ro
+
+  redisinsight:
+    image: redis/redisinsight:latest
+    ports: 
+    - 5540:5540
+    environment:
+      - RI_APP_HOST=0.0.0.0
+    networks:
+      - delta-core-net
+
   # mqtt-dashboard:
   #   image: secanis/mqtt-dashboard
   #   environment:
@@ -60,3 +95,4 @@ services:
   #     - REDIS_DATABASES=16
   #   networks:
   #     - delta-core-net
+

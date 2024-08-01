@@ -1,4 +1,4 @@
-FROM golang:1.19-alpine
+FROM golang:1.22-alpine
 
 # pre-download packages so only if mod file changes will it skip using cache
 RUN mkdir /app-build

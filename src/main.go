@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log/slog"
+	"os"
 	"time"
 
 	route "delta-core/api/route"
@@ -44,6 +46,31 @@ func main() {
 	app := bootstrap.App()
 
 	env := app.Env
+
+	// logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	// logger := slog.NewLogLogger(slog.NewTextHandler())
+	// slog.SetDefault(logger)
+	// defaultLogger := log.Default()
+	// defaultLogger.SetOutput(os.Stdout)
+	// slog.Info("Hello from the std-log package!")
+	// logger := log.New(
+	// 	os.Stderr,
+	// 	"",
+	// 	// "Go application: ",
+	// 	log.Ldate|log.Ltime|log.Lmicroseconds|log.LUTC|log.Lshortfile,
+	// )
+	// slog.SetDefault(logger)
+	if env.LogVerbose {
+		slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+			Level:     slog.LevelDebug,
+			AddSource: true,
+		})))
+	} else {
+		slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+			Level:     slog.LevelInfo,
+			AddSource: true,
+		})))
+	}
 
 	db := app.Mongo.Database(env.DBName)
 	defer app.CloseDBConnection()

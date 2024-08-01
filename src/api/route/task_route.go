@@ -2,7 +2,7 @@ package route
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"time"
 
 	"delta-core/api/controller"
@@ -23,7 +23,7 @@ func NewTaskRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database,
 
 	tc := &controller.TaskController{
 		TaskUsecase:      usecase.NewTaskUsecase(tr, timeout),
-		SignalSubUsecase: usecase.NewSingalSubUsecase(tr, timeout),
+		SignalSubUsecase: usecase.NewSignalSubUsecase(tr, timeout),
 		ProfileUsecase:   usecase.NewProfileUsecase(pr, timeout),
 	}
 	var taskCollection = db.Collection(domain.CollectionTask)
@@ -31,11 +31,10 @@ func NewTaskRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database,
 
 	cursor, err := taskCollection.Find(context.TODO(), bson.M{})
 	if err != nil {
-		fmt.Printf("Cannot fetch all tasks, error %v", err)
+		log.Printf("Cannot fetch all tasks, error %v", err)
 	}
 
 	cursor.All(context.TODO(), &tasks)
-
 	tc.SignalSubUsecase.InitialiseSingalSubs(context.TODO(), env, puc, tasks)
 
 	group.GET("/task", tc.Fetch)
