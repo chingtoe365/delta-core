@@ -4,8 +4,8 @@ import (
 	"context"
 	"delta-core/domain"
 	"delta-core/mongo"
-	"log"
 	"log/slog"
+	"strings"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -40,8 +40,12 @@ func NewMarketRepository(db mongo.Database, collection string) *MarketRepository
 func (mr *MarketRepository) FetchRawSeries(ctx context.Context, key string, start time.Time, end time.Time) []redis.TSTimestampValue {
 	data, err := mr.redis.TSRange(ctx, key, int(start.UnixMilli()), int(end.UnixMilli())).Result()
 	if err != nil {
-		log.Fatalln(err)
-		panic(err)
+		slog.Error(err.Error())
+		if !strings.Contains(err.Error(), "the key does not exist") {
+			panic(err)
+		}
+		return []redis.TSTimestampValue{}
+		// log.Fatalln(err)
 	}
 	return data
 }
